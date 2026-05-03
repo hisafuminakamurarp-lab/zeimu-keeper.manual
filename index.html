@@ -267,6 +267,7 @@
   .img-tab:hover { color: var(--content-text); }
   .img-tab.active { color: #3B82F6; border-bottom-color: #3B82F6; }
   .img-tab-icon { margin-right: 6px; font-size: 13px; }
+  body.kintone-mobile-mode .kintone-img { max-height: 400px; width: auto; max-width: 100%; margin-left: auto; margin-right: auto; display: block; }
 </style>
 <style>
     </style></head>
@@ -375,6 +376,8 @@ function switchKintoneMode(mode) {
     const k = img.dataset.lbKey;
     if (k && window._lbSrcs) window._lbSrcs[k] = newSrc;
   });
+  // body にモード反映（CSSでサイズ調整）
+  document.body.classList.toggle('kintone-mobile-mode', mode === 'mobile');
   // 現在のモードを保存（リロード時の復元用）
   window._kintoneMode = mode;
 }
