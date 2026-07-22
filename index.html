@@ -1496,7 +1496,7 @@ function renderTasks(tasks) {
     if (typeof t === "object" && t.type === "heading") {
       return `<div class="task-heading">${t.text}</div>`;
     }
-    return `<div class="task-item">${t}</div>`;
+    return `<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`;
   }).join("");
   return `<div class="task-list">${items}</div>`;
 }
@@ -1697,7 +1697,7 @@ function renderContent(cat) {
         const tk = `top_${i}`;
         _lbSrcs[tk] = sec.topImage;
         const pcImg = `<img alt="${sec.title || ''}" loading="lazy" src="${sec.topImage}" data-lb-key="${tk}" class="section-img" onclick="openLightbox('${tk}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;cursor:zoom-in;margin-bottom:16px;">`;
-        const pcText = sec.topPcTasks && sec.topPcTasks.length > 0 ? `<div class="task-list" style="margin-bottom:16px;">${sec.topPcTasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>` : '';
+        const pcText = sec.topPcTasks && sec.topPcTasks.length > 0 ? `<div class="task-list" style="margin-bottom:16px;">${sec.topPcTasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : '';
         return pcImg + pcText;
       })() : ''}` +
       sec.subsections.map((sub, si) => `
@@ -1720,9 +1720,9 @@ function renderContent(cat) {
               }).join("");
               return `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;">
                 <div class="img-container" style="flex:1.2;min-width:200px;">${imgHtmls}</div>
-                <div style="flex:1;min-width:180px;">${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}</div>
+                <div style="flex:1;min-width:180px;">${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}</div>
               </div>`;
-            })() : `${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}`}
+            })() : `${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}`}
             ${sub.displaySpec ? `<div style="margin-top:12px;padding:10px 14px;background:#ECFDF5;border-left:4px solid #10B981;border-radius:4px;font-size:12px;line-height:1.6;">
               <div style="font-weight:bold;color:#065F46;margin-bottom:8px;">📋 ${sub.displaySpec.title || "表示仕様"}</div>
               ${sub.displaySpec.description ? `<div style="color:#374151;margin-bottom:8px;">${sub.displaySpec.description}</div>` : ""}
@@ -1841,7 +1841,7 @@ function renderContent(cat) {
                         <span class="subsection-toggle" id="stog-gc-${i}-${si}-${ci}-${gci}">+</span>
                       </div>
                       <div class="subsection-body" id="sbod-gc-${i}-${si}-${ci}-${gci}">
-                        <div class="task-list">${gc.tasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>
+                        <div class="task-list">${gc.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>
                         ${gc.image ? `<img alt="${gc.title || '画像'}" loading="lazy" src="${gc.image}" class="section-img" onclick="openLightbox('${gck}')" style="width:100%;max-width:520px;border-radius:8px;margin-top:10px;border:1px solid #E5E7EB;display:block;">` : ""}
                       </div>
                     </div>`;
@@ -1872,8 +1872,8 @@ function renderContent(cat) {
       ${sec.mapImage ? `<img alt="${sec.title || ''}全体図" loading="lazy" src="${sec.mapImage}" onclick="openLightbox('map_${i}')" style="width:100%;max-width:1000px;border-radius:10px;border:1px solid #E5E7EB;display:block;margin:0 auto 18px;cursor:zoom-in;">` : ""}
       ${sec.image ? `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
         <div style="flex:1.2;min-width:220px;">${imgHtml}</div>
-        <div style="flex:1;min-width:200px;">${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>` : ""}</div>
-      </div>` : `${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item">${t}</div>`).join("")}</div>` : ""}`}
+        <div style="flex:1;min-width:200px;">${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}</div>
+      </div>` : `${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}`}
       ${subsHtml}
     </div>
   `;
