@@ -389,7 +389,7 @@
     <div class="nav-accent-bar" style="background:#0EA5E9"></div>
     <span class="nav-item-icon">🛠️</span>
     <span class="nav-item-label">ツール管理</span>
-    <span class="nav-item-badge">2</span>
+    <span class="nav-item-badge">3</span>
   </div></nav>
   <div class="sidebar-user" id="sidebarUser">
   <div class="sidebar-user-avatar" id="sidebarAvatar" style="background: rgb(59, 130, 246);">管</div>
@@ -645,7 +645,7 @@ const data = [
         },
         {
           title: "STEP1｜リードを獲得する（①リード管理）",
-          tasks: ["すべての営業はここから始まります。見込み客（リード）を<b>Eight名刺連携</b>または<b>手動</b>で登録します。代理店からの紹介リードは、代理店IDを入力して紹介元を紐づけます（代理店の登録は下の『マスタ｜代理店管理』）。"], image: "01_lead_management_overview.jpg", mobileImage: "01_lead_management_overview_mobile.jpg",
+          tasks: ["すべての営業はここから始まります。見込み客（リード）を<b>Eight名刺連携</b>または<b>手動</b>で登録します。代理店からの紹介リードは、代理店IDを入力して紹介元を紐づけます（代理店の登録は下の『マスタ｜代理店管理』）。", "【営業窓口】新規の問い合わせと営業の連絡は <b>info@zeimu-keeper.co.jp</b> を窓口にします（アドレスの使い分けは『ツール管理 ＞ メールアドレス一覧（必読）』）。"], image: "01_lead_management_overview.jpg", mobileImage: "01_lead_management_overview_mobile.jpg",
           children: [
             { title: "STEP1-1 Eight名刺連携で自動登録", phases: [
               {
@@ -954,7 +954,7 @@ const data = [
         },
         {
           title: "STEP6｜請求する（⑤請求管理）",
-          tasks: ["契約に基づき請求書を申請し、入金までを管理します。請求ステータス・入金ステータス・督促の状況をこのアプリで追跡します。"], image: "14_invoice_apply_step1.png", mobileImage: "14_invoice_apply_step1_mobile.png",
+          tasks: ["契約に基づき請求書を申請し、入金までを管理します。請求ステータス・入金ステータス・督促の状況をこのアプリで追跡します。", "【送付元】請求書は必ず <b>invoice@zeimu-keeper.co.jp</b> から送付します（アドレスの使い分けは『ツール管理 ＞ メールアドレス一覧（必読）』）。"], image: "14_invoice_apply_step1.png", mobileImage: "14_invoice_apply_step1_mobile.png",
           children: [
             { title: "STEP6-1 請求書の申請〜入金確認", phases: [
               {
@@ -1007,7 +1007,7 @@ const data = [
         },
         {
           title: "STEP7｜担当者・報酬を登録する（⑧TJ担当者管理）",
-          tasks: ["契約が決まったら、TJ側の担当者と報酬（顧問料・記帳代行料・決算申告料）を登録します。担当割当と売上配分の計算根拠になります。"],
+          tasks: ["契約が決まったら、TJ側の担当者と報酬（顧問料・記帳代行料・決算申告料）を登録します。担当割当と売上配分の計算根拠になります。", "【決算書のやり取り】決算書の送付と受け取りは必ず <b>kessan@zeimu-keeper.co.jp</b> で行います（アドレスの使い分けは『ツール管理 ＞ メールアドレス一覧（必読）』）。"],
           children: [
             { title: "STEP7-1 担当者・報酬を登録する", phases: [
               {
@@ -1274,8 +1274,8 @@ const data = [
       title: "請求オペレーション",
       tasks: [],
       subsections: [
-        { title: "1. 依頼", tasks: ["請求書作成依頼を各担当へ送付", "金額確認・立替確認・紹介確認・不備確認を実施", "依頼期限：翌月15日", "（詳細は今後追記）"] },
-        { title: "2. 提出・反映", tasks: ["提出締切：翌月20日", "請求書回収・不備修正完了をこの日までに完了", "freee反映準備・支払確定もこの日までに", "（詳細は今後追記）"] }
+        { title: "1. 依頼", tasks: ["請求書作成依頼を各担当へ送付", "依頼メールは <b>invoice@zeimu-keeper.co.jp</b> から送る", "金額確認・立替確認・紹介確認・不備確認を実施", "依頼期限：翌月15日", "（詳細は今後追記）"] },
+        { title: "2. 提出・反映", tasks: ["提出締切：翌月20日", "請求書回収・不備修正完了をこの日までに完了", "請求書は <b>invoice@zeimu-keeper.co.jp</b> 宛てに回収する", "freee反映準備・支払確定もこの日までに", "（詳細は今後追記）"] }
       ]
     },
     {
@@ -1299,8 +1299,49 @@ const data = [
   },
   {
   id: "tool-management", label: "ツール管理", icon: "🛠️", color: "#0EA5E9",
-  desc: "業務で利用するツール・SaaSの一覧。各ツール名のリンクから直接アクセスできます。",
+  desc: "業務で利用するツール・SaaSと、社内メールアドレスの一覧。各ツール名・アドレスのリンクから直接アクセスできます。",
   sections: [
+    {
+      title: "メールアドレス一覧（必読）",
+      tasks: [
+        "<b>請求書・決算書・営業の連絡は、必ず用途別アドレスを使います。</b>個人アドレスだけでやり取りを完結させないでください。"
+      ],
+      subsections: [
+        {
+          title: "1. 用途別アドレス",
+          tasks: [
+            `<a href="mailto:invoice@zeimu-keeper.co.jp" class="tool-link">invoice@zeimu-keeper.co.jp</a> ／ 請求書`,
+            `<a href="mailto:kessan@zeimu-keeper.co.jp" class="tool-link">kessan@zeimu-keeper.co.jp</a> ／ 決算書`,
+            `<a href="mailto:info@zeimu-keeper.co.jp" class="tool-link">info@zeimu-keeper.co.jp</a> ／ 営業・メイン窓口`
+          ],
+          notice: {
+            title: "使い分けルール（徹底）",
+            body: "次のルールを必ず守ってください。",
+            itemsLabel: "ルール：",
+            items: [
+              "請求書の送付と受け取りは <b>invoice@zeimu-keeper.co.jp</b> で行う",
+              "決算書の送付と受け取りは <b>kessan@zeimu-keeper.co.jp</b> で行う",
+              "新規の問い合わせと営業の連絡は <b>info@zeimu-keeper.co.jp</b> を窓口にする",
+              "個人アドレスでやり取りする場合も、請求書や決算書が絡むときは該当の用途別アドレスを <b>CC</b> に入れる"
+            ]
+          }
+        },
+        {
+          title: "2. 個人アドレス",
+          tasks: [
+            `<a href="mailto:h.maeda@zeimu-keeper.co.jp" class="tool-link">h.maeda@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:h.nakamura@zeimu-keeper.co.jp" class="tool-link">h.nakamura@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:k.tateyama@zeimu-keeper.co.jp" class="tool-link">k.tateyama@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:r.shimizu@zeimu-keeper.co.jp" class="tool-link">r.shimizu@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:s.arai@zeimu-keeper.co.jp" class="tool-link">s.arai@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:t.ohtani@zeimu-keeper.co.jp" class="tool-link">t.ohtani@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:t.tatsumi@zeimu-keeper.co.jp" class="tool-link">t.tatsumi@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:y.asanuma@zeimu-keeper.co.jp" class="tool-link">y.asanuma@zeimu-keeper.co.jp</a>`,
+            `<a href="mailto:y.naridomi@zeimu-keeper.co.jp" class="tool-link">y.naridomi@zeimu-keeper.co.jp</a>`
+          ]
+        }
+      ]
+    },
     {
       title: "業務ツール（必須）",
       tasks: [],
@@ -1338,7 +1379,8 @@ const data = [
         {
           title: "メール",
           tasks: [
-            `<a href="https://mail.google.com/" target="_blank" rel="noopener" class="tool-link">Gmail</a> ／ 外部連絡`
+            `<a href="https://mail.google.com/" target="_blank" rel="noopener" class="tool-link">Gmail</a> ／ 外部連絡`,
+            `社内のメールアドレスと使い分けルールは『メールアドレス一覧（必読）』を参照`
           ]
         },
         {
