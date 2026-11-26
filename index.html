@@ -187,7 +187,7 @@ kbd { background: var(--os-bg); border: 1px solid var(--os-border); border-radiu
 .today-hero-note { font-size: 11px;color: #94A3B8;margin-top: 8px;}
 .rs-row.rs-today { border-color: #F59E0B;box-shadow: 0 0 0 2px rgba(253, 230, 138, 0.5);}
 .rs-tag-today { background: #FEF3C7;color: #B45309;}
-@media (max-width: 640px) { .rs-row { flex-wrap: wrap;} .rs-day { min-width: 0;} }
+@media (max-width: 640px) { .rs-row { flex-wrap: wrap;} .rs-day { min-width: 0;} .rs-row > span:last-child { flex: 1 1 100% !important; } }
 .task-item b, .task-item strong { color: var(--os-ink); }
 .task-heading { font-size: var(--os-fs-h4); font-weight: 700; color: var(--os-ink); margin: 18px 0 6px; line-height: 1.5; }
 .task-heading:first-child { margin-top: 0; }
