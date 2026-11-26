@@ -163,6 +163,31 @@ kbd { background: var(--os-bg); border: 1px solid var(--os-border); border-radiu
 .task-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 4px 0; }
 .task-item { position: relative; padding: 2px 0 2px 18px; font-size: var(--os-fs-body); line-height: var(--os-lh); color: var(--os-text-body); overflow-wrap: anywhere; }
 .task-item::before { content: ""; position: absolute; left: 4px; top: calc(var(--os-lh) * 0.5em + 1px); width: 5px; height: 5px; border-radius: 50%; background: #aab6c3; }
+/* ランシート（freeeヘルプ風カード表示）— tj-manual と同一 */
+.rs-head { display: flex;align-items: center;gap: 10px;font-weight: 700;font-size: 13.5px;margin: 18px 0 8px;padding: 10px 16px;border-radius: 10px;}
+.rs-head .rs-sub { font-weight: 600;font-size: 11px;margin-left: auto;background: rgba(255,255,255,0.65);padding: 3px 12px;border-radius: 999px;white-space: nowrap;}
+.rs-head-red { background: #FEF2F2;color: #B91C1C;}
+.rs-head-blue { background: #EFF6FF;color: #1D4ED8;}
+.rs-head-green { background: #F0FDF4;color: #15803D;}
+.rs-row { display: flex;align-items: flex-start;gap: 10px;background: #FFFFFF;border: 1px solid #E5E7EB;border-radius: 10px;padding: 11px 14px;margin: 7px 0;font-size: 13px;color: var(--os-text-body);line-height: 1.6;}
+.rs-day { flex: none;min-width: 62px;text-align: center;background: #F1F5F9;color: #334155;font-weight: 700;font-size: 11.5px;border-radius: 999px;padding: 4px 10px;margin-top: 1px;}
+.rs-tag { flex: none;font-size: 10.5px;font-weight: 700;border-radius: 5px;padding: 4px 9px;margin-top: 1px;}
+.rs-tag-cli { background: #DBEAFE;color: #1D4ED8;}
+.rs-tag-int { background: #F3E8FF;color: #7C3AED;}
+.rs-title { font-weight: 700;color: #1A1F36;}
+.rs-body { display: block;font-size: 12.5px;color: #64748B;margin-top: 3px;}
+.rs-day-warn { background: #FEE2E2;color: #B91C1C;}
+.rs-day-link { background: #DCFCE7;color: #15803D;}
+.rs-chips { display: flex;flex-wrap: wrap;gap: 6px;margin: 10px 0 4px;}
+.rs-chip { background: #F1F5F9;color: #64748B;font-size: 11px;font-weight: 600;border-radius: 999px;padding: 3px 10px;}
+.task-list .rs-row::before, .task-list .rs-head::before { content: none; }
+.today-hero { background: linear-gradient(135deg, #EFF6FF, #F0FDF4);border: 1px solid #BFDBFE;border-radius: 12px;padding: 14px 18px;margin: 6px 0 16px;}
+.today-hero-date { font-weight: 800;font-size: 14px;color: #1E40AF;margin-bottom: 6px;}
+.today-hero-none { font-size: 12.5px;color: #64748B;}
+.today-hero-note { font-size: 11px;color: #94A3B8;margin-top: 8px;}
+.rs-row.rs-today { border-color: #F59E0B;box-shadow: 0 0 0 2px rgba(253, 230, 138, 0.5);}
+.rs-tag-today { background: #FEF3C7;color: #B45309;}
+@media (max-width: 640px) { .rs-row { flex-wrap: wrap;} .rs-day { min-width: 0;} }
 .task-item b, .task-item strong { color: var(--os-ink); }
 .task-heading { font-size: var(--os-fs-h4); font-weight: 700; color: var(--os-ink); margin: 18px 0 6px; line-height: 1.5; }
 .task-heading:first-child { margin-top: 0; }
@@ -470,6 +495,7 @@ const data = [
         {
           title: "1. MTG・議事録化",
           tasks: [
+            "【主な操作】",
             "週次定例MTG実施",
             "Nottaで録音・文字起こし",
             "Notta AI要約・議事録作成"
@@ -478,12 +504,14 @@ const data = [
         {
           title: "2. AIタスク抽出",
           tasks: [
+            "【主な操作】",
             "Claude「税務キーパー週次MTG」プロジェクトへ議事録貼り付け"
           ]
         },
         {
           title: "3. ToDo登録",
           tasks: [
+            "【主な操作】",
             "kintone ToDo作成（中村手動）",
             "Google Calendarへ自動登録（中村：全員分／各担当者：自分の分のみ）",
             "TelegramへToDo追加通知"
@@ -492,6 +520,7 @@ const data = [
         {
           title: "4. タスク実行",
           tasks: [
+            "【主な操作】",
             "担当者が作業",
             "Telegramへ完了報告",
             "kintoneでToDo完了（中村手動）"
@@ -500,6 +529,7 @@ const data = [
         {
           title: "5. 自動監視",
           tasks: [
+            "【主な操作】",
             "Google Calendarから予定自動削除",
             "TelegramへToDo完了通知",
             "期限超過はTelegramへ自動通知"
@@ -1231,8 +1261,8 @@ const data = [
   id: "periodic", label: "定期業務", icon: "🗓️", color: "#F97316",
   desc: "月次・年次で発生する定例業務のスケジュールと作業内容。",
   sections: [
-    { title: "月次定期業務", tasks: ["KPI進捗確認（売上・商談数・成約率）", "案件ステータス整理（kintone更新）", "失注・停滞案件の洗い出し", "次月のアクション設計", "顧客フォロー状況の確認", "紹介・代理店経由の案件確認"] },
-    { title: "年次定期業務", tasks: ["年間売上／KPI振り返り", "勝ちパターンの分析（業界・商材・経路）", "失敗パターンの分析", "営業戦略の再設計（ターゲット・導線）", "商材の見直し（売れる／売れない整理）", "代理店・アライアンスの整理", "顧客層の再定義（誰に売るか）"] }
+    { title: "月次定期業務", tasks: ["【主な業務】", "KPI進捗確認（売上・商談数・成約率）", "案件ステータス整理（kintone更新）", "失注・停滞案件の洗い出し", "次月のアクション設計", "顧客フォロー状況の確認", "紹介・代理店経由の案件確認"] },
+    { title: "年次定期業務", tasks: ["【主な業務】", "年間売上／KPI振り返り", "勝ちパターンの分析（業界・商材・経路）", "失敗パターンの分析", "営業戦略の再設計（ターゲット・導線）", "商材の見直し（売れる／売れない整理）", "代理店・アライアンスの整理", "顧客層の再定義（誰に売るか）"] }
   ]
   },
   {
@@ -1253,6 +1283,22 @@ const data = [
   id: "monthly-settlement", label: "月次精算フロー", icon: "📦", color: "#F59E0B",
   desc: "月次精算ライフサイクル（締め・立替・請求・回収・支払）の運用フロー。",
   sections: [
+    {
+      title: "月次スケジュール（今日やること）",
+      runSheet: true,
+      tasks: [
+        "毎月の精算業務を<b>日付順</b>に並べたものです。下の各セクション（締め・立替・請求・回収・支払）の期日をまとめています。",
+        { type: "rsblock", theme: "red", icon: "📨", title: "15日〜20日", sub: "請求オペレーション（前月分）" },
+        { day: "15日", who: "内部", title: "請求書作成依頼の期限", body: "請求書作成依頼を各担当へ送付（依頼メールは invoice@zeimu-keeper.co.jp から）。金額確認・立替確認・紹介確認・不備確認を実施。" },
+        { day: "20日", who: "内部", title: "請求書の提出締切", body: "請求書回収・不備修正完了をこの日までに。請求書は invoice@zeimu-keeper.co.jp 宛てに回収。freee反映準備・支払確定もこの日まで。" },
+        { type: "rsblock", theme: "blue", icon: "💳", title: "21日〜月末", sub: "承認・支払い" },
+        { day: "21〜29日", who: "内部", title: "freee反映・確認・振込準備" },
+        { day: "末日", who: "内部", title: "支払日（月末締め翌月末払い）", body: "原則、売掛回収（入金確認）後に精算。入金確認後に役員請求書作成依頼。" },
+        { type: "rsblock", theme: "green", icon: "✅", title: "月末", sub: "当月の締め・入金確認" },
+        { day: "末日", who: "内部", title: "立替経費の申請・集計を完了", body: "立替経費は月次精算サイクルに統一し、請求書へ合算する運用。" },
+        { day: "末日", who: "内部", title: "売掛入金の確認（GPU・Xモバイル・サイネージ）", body: "各社とも翌月末入金。入金確認後に役員請求依頼。GPUは前月末に振込予定明細を受領。" },
+      ]
+    },
     {
       title: "締め・支払いサイクル",
       tasks: [],
@@ -1310,7 +1356,7 @@ const data = [
             `<a href="mailto:invoice@zeimu-keeper.co.jp" class="tool-link">invoice@zeimu-keeper.co.jp</a> ／ 請求書`,
             `<a href="mailto:kessan@zeimu-keeper.co.jp" class="tool-link">kessan@zeimu-keeper.co.jp</a> ／ 決算書`,
             `<a href="mailto:admin@zeimu-keeper.co.jp" class="tool-link">admin@zeimu-keeper.co.jp</a> ／ 営業・メイン窓口`,
-            `<a href="mailto:info@zeimu-keeper.co.jp" class="tool-link">info@zeimu-keeper.co.jp</a> ／ メインアドレス`
+            `<a href="mailto:info@zeimu-keeper.co.jp" class="tool-link">info@zeimu-keeper.co.jp</a> ／ 代表アドレス（会社の公開用）`
           ],
           notice: {
             title: "使い分けルール（徹底）",
@@ -1554,10 +1600,110 @@ function renderTasks(tasks) {
     if (typeof t === "object" && t.type === "heading") {
       return `<div class="task-heading">${t.text}</div>`;
     }
+    // ランシートのブロック見出し（freeeヘルプ風カード）
+    if (typeof t === "object" && t.type === "rsblock") {
+      return `<div class="rs-head rs-head-${t.theme || "blue"}">${t.icon || ""} ${t.title}${t.sub ? `<span class="rs-sub">${t.sub}</span>` : ""}</div>`;
+    }
+    // ランシートのタスク行（日付バッジ＋顧客/内部タグ。今日該当ならハイライト）
+    if (typeof t === "object" && t.day !== undefined) {
+      const tag = t.who ? `<span class="rs-tag ${t.who === "内部" ? "rs-tag-int" : "rs-tag-cli"}">${t.who}</span>` : "";
+      const ti = rsTodayInfo();
+      const isToday = rsMatchToday(t.day, ti.d, ti.lastDay);
+      const todayChip = isToday ? `<span class="rs-tag rs-tag-today">今日</span>` : "";
+      return `<div class="rs-row${isToday ? " rs-today" : ""}"><span class="rs-day">${t.day}</span>${tag}${todayChip}<span style="flex:1;min-width:0;"><span class="rs-title">${t.title}</span>${t.body ? `<span class="rs-body">${t.body}</span>` : ""}</span></div>`;
+    }
     if (isPlaceholder(t)) return `<div class="task-item" style="padding-left:0"><span class="os-empty">準備中（マニュアル未登録）</span></div>`;
     return `<div class="task-item"><span>${t}</span></div>`;
   }).join("");
   return `<div class="task-list">${items}</div>`;
+}
+
+// ===== 「今日やること」ウィジェット（runSheet: true のセクション先頭に自動表示）— tj-manual と同一ロジック =====
+function rsMatchToday(dayStr, d, lastDay) {
+  if (!dayStr) return false;
+  switch (dayStr) {
+    case "1日": return d === 1;
+    case "〜10日": return d <= 10;
+    case "15日": return d === 15;
+    case "20日": return d === 20;
+    case "20日ごろ": return d >= 18 && d <= 22;
+    case "21〜29日": return d >= 21 && d <= 29;
+    case "月中": return d >= 11 && d <= 19;
+    case "月末": case "末日": return d === lastDay;
+  }
+  return false;
+}
+function rsTodayInfo() {
+  const now = new Date();
+  const d = now.getDate(), m = now.getMonth() + 1;
+  return { d, m, lastDay: new Date(now.getFullYear(), m, 0).getDate(), youbi: ["日","月","火","水","木","金","土"][now.getDay()] };
+}
+function renderTodayWidget(node) {
+  const { d, m, lastDay, youbi } = rsTodayInfo();
+  const hits = (node.tasks || []).filter(t => typeof t === "object" && t.day && rsMatchToday(t.day, d, lastDay));
+  const rows = hits.map(t => {
+    const tag = t.who ? `<span class="rs-tag ${t.who === "内部" ? "rs-tag-int" : "rs-tag-cli"}">${t.who}</span>` : "";
+    return `<div class="rs-row" style="margin:6px 0;"><span class="rs-day">${t.day}</span>${tag}<span style="flex:1;min-width:0;"><span class="rs-title">${t.title}</span></span></div>`;
+  }).join("");
+  return `<div class="today-hero">
+    <div class="today-hero-date">📅 今日の定例 — ${m}月${d}日（${youbi}）</div>
+    ${rows || `<div class="today-hero-none">今日が期日の定例タスクはありません</div>`}
+    <div class="today-hero-note">※期日が土日祝の場合は前後の営業日で調整。詳細は下のスケジュールを参照</div>
+  </div>`;
+}
+// 日付が変わったら描き直す（タブ開きっぱなし対策）
+let _todayWidgetDate = new Date().toDateString();
+function refreshTodayIfStale() {
+  const nowDate = new Date().toDateString();
+  if (nowDate === _todayWidgetDate) return;
+  _todayWidgetDate = nowDate;
+  if (!searchQuery && currentMember) route();
+}
+setInterval(refreshTodayIfStale, 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshTodayIfStale(); });
+
+// 【主な操作】などの定型見出しを持つページを自動でカード表示に変換する — tj-manual と同一
+const RS_AUTO_HEADINGS = {
+  "主な操作": { theme: "blue", icon: "🛠️", numbered: true },
+  "主な業務": { theme: "blue", icon: "📋", numbered: true },
+  "使用ツール": { theme: "blue", icon: "🔧", badge: "ツール" },
+  "注意点": { theme: "red", icon: "⚠️", badge: "！", badgeClass: "rs-day-warn" },
+  "関連業務": { theme: "green", icon: "🔗", badge: "→", badgeClass: "rs-day-link" },
+};
+const _renderTasksBase = renderTasks;
+renderTasks = function(tasks) {
+  const isAutoHeading = t => typeof t === "string" && /^【[^】]+】$/.test(t.trim()) && RS_AUTO_HEADINGS[t.trim().slice(1, -1)];
+  if (!tasks || !tasks.some(isAutoHeading)) return _renderTasksBase(tasks);
+  let mode = null, n = 0;
+  const items = tasks.map(t => {
+    if (isAutoHeading(t)) {
+      const name = t.trim().slice(1, -1);
+      mode = RS_AUTO_HEADINGS[name]; n = 0;
+      return `<div class="rs-head rs-head-${mode.theme}">${mode.icon} ${name}</div>`;
+    }
+    if (typeof t === "string" && /^【[^】]+】$/.test(t.trim())) { mode = null; return `<div class="task-heading">${t}</div>`; }
+    if (typeof t === "string" && /^【タグ】/.test(t.trim())) {
+      const chips = t.trim().replace(/^【タグ】/, "").trim().split(/\s+/).map(x => `<span class="rs-chip">${x}</span>`).join("");
+      return `<div class="rs-chips">${chips}</div>`;
+    }
+    if (typeof t === "string" && mode && !isPlaceholder(t)) {
+      let badge, cls = mode.badgeClass || "";
+      if (mode.numbered) { n++; badge = String(n); } else { badge = mode.badge; }
+      return `<div class="rs-row"><span class="rs-day ${cls}">${badge}</span><span style="flex:1;min-width:0;">${t}</span></div>`;
+    }
+    return _renderTasksBase([t]).replace(/^<div class="task-list">|<\/div>$/g, "");
+  }).join("");
+  return `<div class="task-list">${items}</div>`;
+};
+
+// タスク要素（文字列／カードオブジェクト）から検索用テキストを取り出す
+function taskSearchText(t) {
+  if (typeof t === "string") return t;
+  if (t && typeof t === "object") {
+    if (t.type === "rsblock") return [t.title, t.sub].filter(Boolean).join(" ");
+    return [t.day, t.who, t.title, t.body, t.text].filter(Boolean).join(" ");
+  }
+  return "";
 }
 
 // ---- STEP型ページ描画（tj-manualから移植） ----
@@ -1963,7 +2109,7 @@ function renderSection(cat, si) {
   if (kintone) {
     overview = kintoneTopHtml(sec);
   } else {
-    overview = renderTasks(sec.tasks) + shotsHtml(sec, keyPrefix, false);
+    overview = (sec.runSheet ? renderTodayWidget(sec) : "") + renderTasks(sec.tasks) + shotsHtml(sec, keyPrefix, false);
   }
   if (sec.mapImage) {
     _lbSrcs["map_" + si] = sec.mapImage;
@@ -2112,8 +2258,7 @@ function escHtml(str) { return String(str).replace(/&/g,"&amp;").replace(/</g,"&
 function collectHits(node, tokens, pathLabels, pathIdx, hits, cat, sectionIndex) {
   const title = node.title || "";
   const titleHit = title && matchAllTokens(title, tokens);
-  const texts = (node.tasks || []).filter(t => typeof t === "string");
-  (node.tasks || []).forEach(t => { if (t && typeof t === "object" && t.text) texts.push(t.text); });
+  const texts = (node.tasks || []).map(taskSearchText).filter(Boolean);
   (node.phases || []).forEach(p => {
     if (p.heading) texts.push(p.heading);
     (p.items || []).forEach(it => texts.push(it));
@@ -2144,7 +2289,7 @@ function handleSearch(query) {
     cat.sections.forEach((sec, si) => {
       const before = hits.length;
       // セクション自身
-      const secTexts = (sec.tasks || []).filter(t => typeof t === "string").concat(sec.topPcTasks || []);
+      const secTexts = (sec.tasks || []).map(taskSearchText).filter(Boolean).concat(sec.topPcTasks || []);
       const secMatched = secTexts.filter(t => matchAllTokens(t, tokens));
       if (matchAllTokens(sec.title, tokens) || secMatched.length) {
         hits.push({ cat, sectionIndex: si, pathIdx: [], path: [sec.title], title: sec.title, matchedTasks: secMatched, allTasks: secTexts });
