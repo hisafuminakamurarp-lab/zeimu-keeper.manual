@@ -3,340 +3,361 @@
 <title>税務キーパー業務マニュアル</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-  --bg-dark: #111827;
-  --bg-panel: #1F2937;
-  --bg-hover: #374151;
-  --bg-active: #1E3A5F;
-  --text-primary: #F9FAFB;
-  --text-secondary: #9CA3AF;
-  --text-muted: #6B7280;
-  --border: #374151;
-  --content-bg: #F9FAFB;
-  --content-text: #111827;
-  --content-secondary: #4B5563;
-  --content-border: #E5E7EB;
-  --sidebar-width: 240px;
-  }
-  * { box-sizing: border-box;margin: 0;padding: 0;}
-  body { font-family: "Noto Sans JP", sans-serif;background: var(--content-bg);color: var(--content-text);display: flex;height: 100vh;height: 100dvh;overflow: hidden;}
+/* =====================================================================
+   業務OS UI — 共通デザイントークン
+   RP業務マニュアル（rp-manual）と同じ設計ルール。値だけを会社ごとに差し替える。
+   ・--os-* は全社共通の名前（部品のCSSはこの変数だけを参照する）
+   ・税務キーパー固有の値は「ブランド」の段だけ
+   ===================================================================== */
+:root {
+  /* ブランド（税務キーパー） */
+  --os-accent: #A21034;              /* ブランドカラー（RPの「夕焼け」に相当） */
+  --os-accent-hover: #87102D;
+  --os-accent-soft: rgba(162,16,52,0.08);
+  --os-accent-soft-2: rgba(162,16,52,0.13);
+  --os-accent-shadow: rgba(162,16,52,0.15);
 
-  /* SIDEBAR */
-  #sidebar { width: var(--sidebar-width);background: var(--bg-dark);display: flex;flex-direction: column;height: 100vh;height: 100dvh;flex-shrink: 0;}
-  .sidebar-header { padding: 20px 16px 14px;border-bottom: 1px solid var(--border);}
-  .sidebar-logo { display: flex;align-items: center;gap: 8px;}
-  .sidebar-logo-icon { width: 28px;height: 28px;background: linear-gradient(135deg, #3B82F6, #8B5CF6);border-radius: 6px;display: flex;align-items: center;justify-content: center;font-size: 14px;}
-  .sidebar-logo-text { font-size: 13px;font-weight: 700;color: var(--text-primary);line-height: 1.3;}
-  .sidebar-logo-sub { font-size: 10px;color: var(--text-muted);font-weight: 400;}
-  .sidebar-search { margin: 12px 12px 0;position: relative;}
-  .sidebar-search input { width: 100%;background: var(--bg-panel);border: 1px solid var(--border);border-radius: 6px;padding: 7px 10px 7px 30px;font-size: 12px;color: var(--text-primary);font-family: inherit;outline: none;transition: border-color 0.2s;}
-  .sidebar-search input:focus { border-color: #3B82F6;}
-  .sidebar-search input::placeholder { color: var(--text-muted);}
-  .sidebar-search-icon { position: absolute;left: 9px;top: 50%;transform: translateY(-50%);color: var(--text-muted);font-size: 12px;}
-  .sidebar-nav { flex: 1;overflow-y: auto;padding: 8px 0 16px;}
-  .sidebar-nav::-webkit-scrollbar { width: 4px;}
-  .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border);border-radius: 2px;}
-  .nav-section-label { padding: 10px 16px 4px;font-size: 10px;font-weight: 700;color: var(--text-muted);letter-spacing: 0.08em;text-transform: uppercase;}
-  .nav-item { display: flex;align-items: center;gap: 10px;padding: 9px 14px;cursor: pointer;border-left: 3px solid transparent;transition: all 0.15s;color: var(--text-secondary);font-size: 13px;font-weight: 500;position: relative;}
-  .nav-item:hover { background: var(--bg-hover);color: var(--text-primary);}
-  .nav-item.active { background: var(--bg-active);color: var(--text-primary);}
-  .nav-item-icon { font-size: 15px;width: 20px;text-align: center;flex-shrink: 0;}
-  .nav-item-label { flex: 1;}
-  .nav-item-badge { font-size: 10px;background: var(--bg-hover);color: var(--text-muted);padding: 1px 6px;border-radius: 10px;}
-  .nav-item.active .nav-item-badge { background: rgba(255,255,255,0.1);color: var(--text-secondary);}
-  .nav-accent-bar { position: absolute;left: 0;top: 0;bottom: 0;width: 3px;border-radius: 0 2px 2px 0;display: none;}
-  .nav-item.active .nav-accent-bar { display: block;}
+  /* ベース（RPと共通） */
+  --os-ink: #1c2733;                 /* ヘッダー・見出し（RP: 岩肌） */
+  --os-ink-2: #2c4055;               /* 中見出し・リンク（RP: 明るい岩） */
+  --os-bg: #f4f7fa;                  /* 背景（RP: 雪） */
+  --os-surface: #ffffff;
+  --os-text: #1c2733;
+  --os-text-body: #3a4a5a;
+  --os-text-mute: #6c7a8a;
+  --os-border: #d8dfe7;
+  --os-border-soft: #e8edf2;
 
-  /* MAIN */
-  #main { flex: 1;display: flex;flex-direction: column;overflow: hidden;}
-  .topbar { background: #fff;border-bottom: 1px solid var(--content-border);padding: 0 28px;height: 54px;display: flex;align-items: center;gap: 12px;flex-shrink: 0;}
-  .breadcrumb { display: flex;align-items: center;gap: 6px;font-size: 13px;color: var(--content-secondary);}
-  .breadcrumb-sep { color: #D1D5DB;}
-  .breadcrumb-current { color: var(--content-text);font-weight: 600;}
-  .topbar-badge { margin-left: auto;font-size: 11px;padding: 3px 10px;border-radius: 20px;font-weight: 600;}
-  .content-area { flex: 1;overflow-y: auto;padding: 32px 36px;}
-  .content-area::-webkit-scrollbar { width: 6px;}
-  .content-area::-webkit-scrollbar-thumb { background: #D1D5DB;border-radius: 3px;}
+  /* 役割色（RPと共通） */
+  --os-info: #3a6ea5;  --os-info-bg: rgba(58,110,165,0.07);  --os-info-line: rgba(58,110,165,0.24);
+  --os-warn: #b45309;  --os-warn-bg: #fdf6e8;                 --os-warn-line: #f1d9a8;
+  --os-error: #c0392b; --os-error-bg: #fcf1f0;                --os-error-line: #efc9c4;
+  --os-success: #4f7a68; --os-success-bg: rgba(107,142,127,0.10); --os-success-line: rgba(107,142,127,0.32);
+  --os-neutral-bg: #f1f4f7;
 
-  /* CATEGORY HEADER */
-  .cat-header { display: flex;align-items: flex-start;gap: 16px;margin-bottom: 28px;padding-bottom: 24px;border-bottom: 1px solid var(--content-border);}
-  .cat-icon-big { width: 52px;height: 52px;border-radius: 12px;display: flex;align-items: center;justify-content: center;font-size: 24px;flex-shrink: 0;}
-  .cat-title { font-size: 22px;font-weight: 700;margin-bottom: 4px;}
-  .cat-desc { font-size: 13px;color: var(--content-secondary);line-height: 1.6;}
+  /* 文字 */
+  --os-font: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+  --os-fs-page: 26px;     /* ページタイトル（RP .content h2） */
+  --os-fs-h3: 18px;       /* 区切り見出し（RP .section-block h3） */
+  --os-fs-h4: 15px;       /* 小見出し（RP .section-block h4） */
+  --os-fs-body: 14px;
+  --os-fs-small: 12.5px;
+  --os-lh: 1.75;
 
-  /* SECTION CARDS */
-  .sections-grid { display: grid;gap: 12px;}
-  .section-card { background: #fff;border: 1px solid var(--content-border);border-radius: 10px;overflow: hidden;transition: box-shadow 0.2s;}
-  .section-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08);}
-  .section-header { display: flex;align-items: center;gap: 12px;padding: 14px 18px;cursor: pointer;user-select: none;}
-  .section-dot { width: 8px;height: 8px;border-radius: 50%;flex-shrink: 0;}
-  .section-title { flex: 1;font-size: 14px;font-weight: 600;color: var(--content-text);}
-  .section-toggle { font-size: 18px;color: #9CA3AF;transition: transform 0.2s;line-height: 1;}
-  .section-toggle.open { transform: rotate(45deg);}
-  .section-body { display: none;padding: 0 18px 16px 38px;border-top: 1px solid var(--content-border);}
-  .section-body.open { display: block;}
-  .task-list { margin-top: 12px;display: flex;flex-direction: column;gap: 4px;}
-  .task-item { display: flex;align-items: flex-start;gap: 8px;padding: 5px 0;font-size: 13px;color: var(--content-secondary);line-height: 1.5;}
-  .task-item::before { content: "";width: 5px;height: 5px;border-radius: 50%;background: #D1D5DB;flex-shrink: 0;margin-top: 7px;}
-  /* タスク内見出し（フェーズ区切り用） */
-  .task-heading { font-size: 13px;font-weight: 600;color: #1A1F36;padding: 12px 0 4px 0;margin-top: 6px;border-top: 1px solid #E5E7EB;}
-  .task-heading:first-child { margin-top: 0;border-top: none;padding-top: 0;}
-  /* STEP型ページ用（tj-manualから移植） */
-  .task-heading.step-main { font-size: 15px;font-weight: 700;color: #A21034;border-top: 2px solid #A21034;padding-top: 14px;margin-top: 18px;}
-  .task-heading.step-sub { font-size: 12px;font-weight: 600;color: #6B7280;border-top: 1px dashed #E5E7EB;}
-  .phase-sub { margin-left: 22px;border-left: 3px solid #EEF0F4;padding-left: 16px;}
-  .step-shot { max-width: 760px; }
-  .step-shot img { box-shadow: 0 1px 2px rgba(20,30,45,.04), 0 6px 18px rgba(20,30,45,.07); }
-  .step-toc { background:#F5F8FC;border:1px solid #E3E9F1;border-radius:10px;padding:12px 14px;margin:10px 0 6px; }
-  .step-toc-t { font-size:11px;font-weight:700;letter-spacing:.06em;color:#64748B;margin-bottom:8px; }
-  .step-toc ol { list-style:none;margin:0;padding:0;counter-reset:stoc; }
-  .step-toc li { counter-increment:stoc;margin:1px 0; }
-  .step-toc a { display:flex;gap:8px;align-items:baseline;padding:3px 6px;border-radius:6px;color:#334155;font-size:12.5px;line-height:1.45;cursor:pointer;text-decoration:none; }
-  .step-toc a::before { content:counter(stoc);color:#2563EB;font-weight:700;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:15px;text-align:right; }
-  .step-toc a:hover { background:#E9F1FB;color:#0F172A; }
-  .step-toc li.sub a::before { content:"＋";color:#94A3B8; }
-  .callout { display:flex;gap:10px;align-items:flex-start;border-radius:9px;padding:10px 13px;margin:10px 0; }
-  .callout-ic { flex-shrink:0;font-size:14px;line-height:1.6; }
-  .callout-body { flex:1;min-width:0; }
-  .callout-label { font-weight:700;font-size:12.5px;margin-bottom:2px; }
-  .callout .task-list { margin-top:2px; }
-  .callout.warn { background:#FEF4E7;border:1px solid #F3D6A6; }
-  .callout.warn .callout-label { color:#B45309; }
-  .callout.info { background:#EAF2FD;border:1px solid #C6DCF7; }
-  .callout.info .callout-label { color:#1D4ED8; }
-  .verify-badge { font-size:11px;color:#64748B;margin:8px 0 0; }
+  /* 形 */
+  --os-radius-sm: 4px;
+  --os-radius: 6px;
+  --os-radius-lg: 8px;
+  --os-radius-xl: 12px;
+  --os-shadow-header: 0 2px 8px rgba(0,0,0,0.15);
+  --os-shadow-card: 0 4px 12px var(--os-accent-shadow);
 
-  /* NESTED SUBSECTIONS */
-  .subsection-list { margin: 10px 0 4px 0;display: flex;flex-direction: column;gap: 6px;}
-  .subsection-card { background: #F8FAFF;border: 1px solid #E5E7EB;border-radius: 8px;overflow: hidden;}
-  .subsection-header { display: flex;align-items: center;gap: 10px;padding: 10px 14px;cursor: pointer;user-select: none;}
-  .subsection-dot { width: 6px;height: 6px;border-radius: 50%;flex-shrink: 0;opacity: 0.6;}
-  .subsection-title { flex: 1;font-size: 13px;font-weight: 600;color: #374151;}
-  .subsection-count { font-size: 10px;color: #9CA3AF;margin-right: 6px;}
-  .subsection-toggle { font-size: 15px;color: #9CA3AF;transition: transform 0.2s;line-height: 1;}
-  .subsection-toggle.open { transform: rotate(45deg);}
-  .subsection-body { display: none;padding: 0 14px 10px 30px;border-top: 1px solid #E5E7EB;}
-  .subsection-body.open { display: block;}
+  /* レイアウト */
+  --os-header-h: 52px;
+  --os-sidebar-w: 300px;
+  --os-content-max: 1100px;
+  --os-tap: 44px;          /* スマホのタップ領域の最小値 */
+}
 
-  /* SECTION IMAGE */
-  .section-img { cursor: zoom-in;transition: opacity 0.15s, transform 0.15s;}
-  .section-img:hover { opacity: 0.9;transform: scale(1.01);}
-  /* CLS (Cumulative Layout Shift) 対策：画像ロード前にスペース確保 */
-  /* PC kintoneスクリーンショット（横長 約1.73:1） */
-  img.section-img.kintone-img[data-pc-src],
-  img.kintone-top-pc { aspect-ratio: 1.73 / 1; }
-  /* モバイルkintoneスクリーンショット（縦長 約0.5:1） */
-  img.kintone-top-mobile-img { aspect-ratio: 0.5 / 1; }
-  /* モバイルモード時の画像も縦長 */
-  body.kintone-mobile-mode img.section-img.kintone-img { aspect-ratio: 0.5 / 1; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-padding-top: calc(var(--os-header-h) + 16px); }
+body { font-family: var(--os-font); background: var(--os-bg); color: var(--os-text); line-height: 1.7; font-size: var(--os-fs-body); -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+button { font-family: inherit; }
+img { max-width: 100%; }
+mark { background: #fde68a; border-radius: 2px; padding: 0 1px; }
+kbd { background: var(--os-bg); border: 1px solid var(--os-border); border-radius: 3px; padding: 0 5px; font-size: 10px; font-family: ui-monospace, monospace; }
 
-  /* SEARCH */
-  .search-empty { text-align: center;padding: 60px 0;color: var(--content-secondary);font-size: 14px;}
-  .search-result-item { background: #fff;border: 1px solid var(--content-border);border-radius: 10px;padding: 14px 18px;margin-bottom: 10px;border-left-width: 3px;cursor: pointer;transition: box-shadow 0.15s;}
-  .search-result-item:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.08);}
-  .search-result-cat { font-size: 11px;font-weight: 700;margin-bottom: 4px;}
-  .search-result-title { font-size: 14px;font-weight: 600;color: var(--content-text);margin-bottom: 4px;}
-  .search-result-preview { font-size: 12px;color: var(--content-secondary);line-height: 1.6;}
-  mark { background: #FEF08A;border-radius: 2px;padding: 0 1px;}
+/* ===== ログイン ===== */
+#loginScreen { position: fixed; inset: 0; z-index: 99998; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at top, var(--os-ink-2) 0%, var(--os-ink) 70%); }
+#loginScreen::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, var(--os-accent-shadow) 100%); pointer-events: none; }
+.login-box { position: relative; z-index: 1; background: var(--os-surface); padding: 40px; border-radius: var(--os-radius-xl); box-shadow: 0 20px 60px rgba(0,0,0,0.4); width: 90%; max-width: 400px; }
+.login-brand { text-align: center; margin-bottom: 20px; }
+.login-logo { display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; background: var(--os-accent); border-radius: 50%; font-size: 22px; margin-bottom: 8px; }
+.login-title { font-size: 18px; font-weight: 700; color: var(--os-ink); letter-spacing: 0.05em; }
+.login-sub { font-size: 12px; color: var(--os-text-mute); }
+.login-label { display: block; font-size: 13px; color: var(--os-text-mute); margin: 16px 0 6px; font-weight: 500; }
+.login-input { width: 100%; padding: 11px 12px; border: 1px solid var(--os-border); border-radius: var(--os-radius); font-size: 16px; font-family: inherit; color: var(--os-text); transition: border-color .15s; }
+.login-input:focus { outline: none; border-color: var(--os-accent); }
+.login-btn { width: 100%; padding: 12px; margin-top: 22px; background: var(--os-ink); color: #fff; border: none; border-radius: var(--os-radius); font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; }
+.login-btn:hover { background: var(--os-ink-2); }
+.login-error { color: var(--os-error); font-size: 13px; min-height: 18px; margin-top: 10px; text-align: center; }
 
-  /* ===== LOGIN SCREEN ===== */
-  #loginScreen {
-  position: fixed;
-  inset: 0;
-  background: #111827;
-  z-index: 99998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  }
+/* ===== ヘッダー（RP .header） ===== */
+.os-header { position: sticky; top: 0; z-index: 100; height: var(--os-header-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 20px; background: var(--os-ink); color: #fff; box-shadow: var(--os-shadow-header); border-bottom: 2px solid var(--os-accent); }
+.os-header-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.os-header-logo { width: 28px; height: 28px; border-radius: 50%; background: var(--os-accent); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.os-header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.os-header h1 .sub { color: #f0b7c4; font-weight: 600; }
+.os-header-right { display: flex; align-items: center; gap: 10px; font-size: 13px; flex-shrink: 0; }
+.os-user { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.85); }
+.os-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; }
+.os-icon-btn { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: var(--os-radius-sm); cursor: pointer; font-size: 12px; transition: background .15s; }
+.os-icon-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; width: 40px; height: 40px; margin-left: -8px; border-radius: var(--os-radius); }
 
-  .login-box {
-  background: #1F2937;
-  border: 1px solid #374151;
-  border-radius: 16px;
-  padding: 40px 36px;
-  width: 340px;
-  text-align: center;
-  }
+.os-layout { display: flex; min-height: calc(100vh - var(--os-header-h)); }
 
-  .login-logo {
-  width: 48px;height: 48px;
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-  border-radius: 12px;
-  display: flex;align-items: center;justify-content: center;
-  font-size: 22px;
-  margin: 0 auto 16px;
-  }
+/* ===== サイドバー（RP .sidebar） ===== */
+.os-sidebar { width: var(--os-sidebar-w); flex-shrink: 0; background: var(--os-surface); border-right: 1px solid var(--os-border); position: sticky; top: var(--os-header-h); height: calc(100vh - var(--os-header-h)); height: calc(100dvh - var(--os-header-h)); overflow-y: auto; overscroll-behavior: contain; transition: transform .25s ease; }
+.sidebar-search { position: sticky; top: 0; z-index: 5; background: var(--os-surface); padding: 12px; border-bottom: 1px solid var(--os-border); }
+.sidebar-search input { width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--os-border); border-radius: var(--os-radius-sm); font-size: 13px; font-family: inherit; color: var(--os-text); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236c7a8a' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 10px center; }
+.sidebar-search input:focus { outline: none; border-color: var(--os-accent); }
+.shortcut-hint { font-size: 10px; color: var(--os-text-mute); margin-top: 4px; }
+.nav-label { padding: 12px 16px 4px; font-size: 11px; font-weight: 700; color: var(--os-text-mute); letter-spacing: 0.06em; }
+.nav-list { list-style: none; padding: 0 0 24px; }
+.cat-item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 11px 14px 11px 16px; min-height: var(--os-tap); background: none; border: none; border-bottom: 1px solid var(--os-bg); text-align: left; font-size: 14px; font-weight: 600; color: var(--os-ink); cursor: pointer; transition: background .15s; }
+.cat-item:hover, .cat-item.is-current { background: var(--os-bg); }
+.cat-item:focus-visible, .sec-item:focus-visible, .os-card:focus-visible, .acc-head:focus-visible { outline: 2px solid var(--os-accent); outline-offset: -2px; }
+.cat-num { width: 24px; height: 24px; border-radius: 50%; background: var(--os-ink); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cat-item.is-current .cat-num { background: var(--os-accent); }
+.cat-label { flex: 1; min-width: 0; }
+.cat-arrow { width: 28px; height: 28px; margin-right: -6px; display: flex; align-items: center; justify-content: center; border-radius: var(--os-radius-sm); color: var(--os-text-mute); font-size: 11px; transition: transform .2s; flex-shrink: 0; }
+.cat-arrow:hover { background: var(--os-border-soft); }
+.cat-item.expanded .cat-arrow { transform: rotate(90deg); }
+.sec-list { list-style: none; background: var(--os-bg); display: none; }
+.sec-list.show { display: block; }
+.sec-item { width: 100%; display: block; padding: 9px 16px 9px 50px; min-height: 38px; background: none; border: none; border-left: 3px solid transparent; text-align: left; font-size: 13px; color: var(--os-text-mute); cursor: pointer; transition: all .15s; line-height: 1.5; }
+.sec-item:hover { background: var(--os-accent-soft); color: var(--os-ink); }
+.sec-item.active { background: var(--os-accent-soft-2); color: var(--os-ink); font-weight: 600; border-left-color: var(--os-accent); }
+.sidebar-overlay { display: none; position: fixed; inset: var(--os-header-h) 0 0 0; background: rgba(0,0,0,0.45); z-index: 89; }
 
-  .login-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #F9FAFB;
-  margin-bottom: 4px;
-  }
+/* ===== 本文エリア（RP .content） ===== */
+.os-content { flex: 1; min-width: 0; padding: 28px 48px 96px; max-width: var(--os-content-max); }
+.page-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.breadcrumb { font-size: 12px; color: var(--os-text-mute); display: flex; flex-wrap: wrap; align-items: center; }
+.breadcrumb button { color: var(--os-ink-2); background: none; border: none; padding: 0; font-size: inherit; cursor: pointer; }
+.breadcrumb button:hover { text-decoration: underline; color: var(--os-accent); }
+.breadcrumb .sep { margin: 0 6px; }
+.back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px 6px 10px; font-size: 13px; color: var(--os-ink-2); background: var(--os-surface); border: 1px solid var(--os-border); border-radius: 999px; cursor: pointer; transition: all .15s; }
+.back-btn:hover { border-color: var(--os-accent); color: var(--os-accent); }
+.page-title { font-size: var(--os-fs-page); font-weight: 700; color: var(--os-ink); line-height: 1.4; padding-bottom: 12px; margin-bottom: 8px; border-bottom: 3px solid var(--os-ink); position: relative; display: flex; align-items: center; gap: 10px; }
+.page-title::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 60px; height: 3px; background: var(--os-accent); }
+.page-title .pt-icon { font-size: 24px; }
+.meta-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 14px 0 24px; font-size: 12px; color: var(--os-text-mute); }
+.meta-actions button { padding: 6px 12px; font-size: 12px; border: 1px solid var(--os-border); background: var(--os-surface); color: var(--os-text-mute); border-radius: var(--os-radius-sm); cursor: pointer; transition: all .15s; }
+.meta-actions button:hover { border-color: var(--os-accent); color: var(--os-ink); }
+.meta-actions .meta-count { margin-left: auto; }
+.block { margin-bottom: 40px; }
+.block-title { font-size: var(--os-fs-h3); font-weight: 700; color: var(--os-ink-2); margin-bottom: 12px; padding-left: 10px; border-left: 4px solid var(--os-accent); line-height: 1.5; }
 
-  .login-sub {
-  font-size: 12px;
-  color: #6B7280;
-  margin-bottom: 28px;
-  }
+/* 業務概要（RP .phase-overview） */
+.os-overview { background: linear-gradient(135deg, var(--os-ink) 0%, var(--os-ink-2) 100%); color: #fff; padding: 20px 24px; border-radius: var(--os-radius-lg); border-left: 4px solid var(--os-accent); margin-bottom: 28px; font-size: 14px; line-height: 1.8; }
+.os-overview-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #f0b7c4; margin-bottom: 4px; }
 
-  .login-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #6B7280;
-  letter-spacing: 0.08em;
-  text-align: left;
-  margin-bottom: 10px;
-  }
+/* カード（RP .category-card） */
+.os-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.os-card { display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left; background: var(--os-surface); padding: 14px 16px; border: 1px solid var(--os-border); border-radius: var(--os-radius); cursor: pointer; transition: all .15s; color: inherit; }
+.os-card:hover { border-color: var(--os-accent); box-shadow: var(--os-shadow-card); transform: translateY(-2px); }
+.os-card-num { font-size: 12px; font-weight: 700; color: var(--os-accent); font-variant-numeric: tabular-nums; padding-top: 2px; min-width: 20px; }
+.os-card-main { flex: 1; min-width: 0; }
+.os-card-name { font-weight: 600; color: var(--os-ink); font-size: 14px; line-height: 1.5; }
+.os-card-desc { font-size: 12px; color: var(--os-text-mute); margin-top: 4px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.os-card-meta { font-size: 11px; color: var(--os-text-mute); margin-top: 6px; }
+.os-card-arrow { color: var(--os-text-mute); font-size: 16px; line-height: 1.4; }
+.os-card:hover .os-card-arrow { color: var(--os-accent); }
+.os-cards.compact { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.os-cards.compact .os-card { padding: 10px 12px; }
+.os-cards.compact .os-card-name { font-size: 13px; }
 
-  /* サイドバーのユーザー表示 */
-  .sidebar-user {
-  padding: 10px 12px;
-  border-top: 1px solid #374151;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: background 0.15s;
-  flex-shrink: 0;
-  }
+/* 本文：箇条書き */
+.task-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 4px 0; }
+.task-item { position: relative; padding: 2px 0 2px 18px; font-size: var(--os-fs-body); line-height: var(--os-lh); color: var(--os-text-body); overflow-wrap: anywhere; }
+.task-item::before { content: ""; position: absolute; left: 4px; top: calc(var(--os-lh) * 0.5em + 1px); width: 5px; height: 5px; border-radius: 50%; background: #aab6c3; }
+.task-item b, .task-item strong { color: var(--os-ink); }
+.task-heading { font-size: var(--os-fs-h4); font-weight: 700; color: var(--os-ink); margin: 18px 0 6px; line-height: 1.5; }
+.task-heading:first-child { margin-top: 0; }
+.os-empty { display: inline-block; font-size: 12px; color: var(--os-text-mute); background: var(--os-neutral-bg); border: 1px dashed var(--os-border); border-radius: 999px; padding: 2px 10px; }
 
-  .sidebar-user:hover { background: #1F2937;}
+/* 外部リンク */
+.os-content a { color: var(--os-info); }
+.os-content a[target="_blank"]::after { content: " ↗"; font-size: 11px; text-decoration: none; display: inline-block; margin-left: 1px; }
+.tool-link { color: var(--os-info) !important; font-weight: 600; text-decoration: none; }
+.tool-link:hover { text-decoration: underline; }
 
-  .sidebar-user-avatar {
-  width: 26px;height: 26px;
-  border-radius: 50%;
-  display: flex;align-items: center;justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-  }
+/* ===== アコーディオン（階層表示） =====
+   L1 = 枠付きカード / L2 = 区切り線の行 / L3 = インデントした行 */
+.acc-list { display: flex; flex-direction: column; gap: 10px; }
+.acc { scroll-margin-top: calc(var(--os-header-h) + 12px); }
+.acc-head { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; background: none; border: none; cursor: pointer; color: var(--os-ink); font-weight: 600; line-height: 1.5; }
+.acc-chev { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--os-text-mute); transition: transform .2s; }
+.acc-chev svg { width: 12px; height: 12px; }
+.acc.open > .acc-head .acc-chev { transform: rotate(90deg); color: var(--os-accent); }
+.acc-title { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.acc-count { font-size: 11px; font-weight: 500; color: var(--os-text-mute); white-space: nowrap; }
+.acc-link { opacity: 0; font-size: 12px; color: var(--os-text-mute); padding: 2px 6px; border-radius: var(--os-radius-sm); transition: opacity .15s; }
+.acc-head:hover .acc-link { opacity: 1; }
+.acc-link:hover { background: var(--os-border-soft); color: var(--os-ink); }
+.acc-body { display: none; }
+.acc.open > .acc-body { display: block; }
 
-  .sidebar-user-name {
-  font-size: 12px;
-  color: #9CA3AF;
-  flex: 1;
-  }
+.acc.l1 { background: var(--os-surface); border: 1px solid var(--os-border); border-radius: var(--os-radius-lg); overflow: hidden; transition: border-color .15s; }
+.acc.l1:hover { border-color: #c5cfda; }
+.acc.l1 > .acc-head { padding: 13px 16px; min-height: 52px; font-size: 15px; }
+.acc.l1 > .acc-head:hover { background: #fafbfc; }
+.acc.l1.open { border-color: #c5cfda; }
+.acc.l1.open > .acc-head { background: var(--os-accent-soft); box-shadow: inset 3px 0 0 var(--os-accent); }
+.acc.l1 > .acc-body { padding: 14px 20px 18px 46px; border-top: 1px solid var(--os-border-soft); }
 
-  .sidebar-user-switch {
-  font-size: 10px;
-  color: #4B5563;
-  }
+.acc.l2 { border-top: 1px solid var(--os-border-soft); }
+.acc.l2:first-child { border-top: none; }
+.acc-sublist { margin-top: 12px; border: 1px solid var(--os-border-soft); border-radius: var(--os-radius); background: #fbfcfd; }
+.acc.l2 > .acc-head { padding: 11px 14px; min-height: 46px; font-size: 14px; }
+.acc.l2 > .acc-head:hover { background: var(--os-bg); }
+.acc.l2.open > .acc-head { color: var(--os-accent); }
+.acc.l2 > .acc-body { padding: 4px 18px 18px 44px; background: var(--os-surface); }
 
-  /* ハンバーガーボタン */
-  .hamburger {
-  display: none;
-  position: fixed;
-  top: 12px;left: 12px;
-  z-index: 1000;
-  width: 38px;height: 38px;
-  background: #1F2937;
-  border: 1px solid #374151;
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 5px;
-  }
+.acc.l3 > .acc-head { padding: 9px 12px; min-height: 42px; font-size: 13.5px; }
+.acc.l3 > .acc-head:hover { background: var(--os-bg); }
+.acc.l3 > .acc-body { padding: 2px 14px 14px 42px; }
+.acc-sublist .acc-sublist { background: var(--os-surface); }
 
-  .hamburger span {
-  display: block;
-  width: 18px;height: 2px;
-  background: #9CA3AF;
-  border-radius: 2px;
-  transition: all 0.2s;
-  }
+.acc.flash > .acc-head { animation: osFlash 1.6s ease; }
+@keyframes osFlash { 0%,40% { background: #fdeaa8; } 100% { background: transparent; } }
 
-  .sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 998;
-  }
+/* ===== 注意・補足・必須（コールアウト） ===== */
+.callout { display: flex; gap: 10px; align-items: flex-start; border-radius: var(--os-radius); padding: 11px 14px; margin: 12px 0; border: 1px solid; font-size: 13.5px; line-height: 1.7; }
+.callout-ic { flex-shrink: 0; font-size: 14px; line-height: 1.7; }
+.callout-body { flex: 1; min-width: 0; color: var(--os-text-body); }
+.callout-label { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+.callout .task-list { margin: 2px 0 0; }
+.callout .task-item { font-size: 13.5px; }
+.callout-foot { margin-top: 6px; font-size: 11.5px; color: var(--os-text-mute); }
+.callout.warn { background: var(--os-warn-bg); border-color: var(--os-warn-line); }
+.callout.warn .callout-label { color: var(--os-warn); }
+.callout.info { background: var(--os-info-bg); border-color: var(--os-info-line); }
+.callout.info .callout-label { color: var(--os-info); }
+.callout.required { background: var(--os-error-bg); border-color: var(--os-error-line); }
+.callout.required .callout-label { color: var(--os-error); }
+.callout.spec { background: var(--os-success-bg); border-color: var(--os-success-line); }
+.callout.spec .callout-label { color: var(--os-success); }
+.callout.lookup { background: var(--os-neutral-bg); border-color: var(--os-border); }
+.callout.lookup .callout-label { color: var(--os-ink-2); }
+.spec-item { margin-top: 10px; }
+.spec-item:first-of-type { margin-top: 4px; }
+.spec-id { font-weight: 700; color: var(--os-ink); }
+.spec-src { font-size: 12px; color: var(--os-text-mute); }
+.spec-sub { font-size: 12px; color: var(--os-text-mute); margin-top: 4px; }
+.jump-link { color: var(--os-info); text-decoration: underline; cursor: pointer; background: none; border: none; padding: 0; font: inherit; font-weight: inherit; }
+.verify-badge { font-size: 11.5px; color: var(--os-text-mute); margin: 0 0 8px; }
 
-  @media (max-width: 768px) {
-  :root { --sidebar-width: 260px;}
+/* STEP型の手順（renderPhases） */
+.task-heading.step-main { font-size: 16px; color: var(--os-ink); padding-left: 10px; border-left: 4px solid var(--os-accent); margin-top: 26px; }
+.task-heading.step-sub { font-size: 13.5px; color: var(--os-text-mute); }
+.phase-sub { margin-left: 8px; border-left: 2px dashed var(--os-border); padding-left: 16px; }
+.step-toc { background: var(--os-bg); border: 1px solid var(--os-border-soft); border-radius: var(--os-radius); padding: 12px 14px; margin: 4px 0 8px; }
+.step-toc-t { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--os-text-mute); margin-bottom: 6px; }
+.step-toc ol { list-style: none; counter-reset: stoc; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 12px; }
+.step-toc li { counter-increment: stoc; }
+.step-toc a { display: flex; gap: 8px; align-items: baseline; padding: 4px 6px; border-radius: var(--os-radius-sm); color: var(--os-ink-2) !important; font-size: 13px; line-height: 1.5; cursor: pointer; text-decoration: none; }
+.step-toc a::before { content: counter(stoc); color: var(--os-accent); font-weight: 700; font-variant-numeric: tabular-nums; min-width: 15px; text-align: right; flex-shrink: 0; }
+.step-toc a:hover { background: var(--os-surface); }
+.step-toc li.sub a::before { content: "＋"; color: var(--os-text-mute); }
 
-  .hamburger { display: flex;}
+/* ===== 画面キャプチャ ===== */
+.os-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 12px 0 4px; }
+.os-shots.one { grid-template-columns: minmax(0, 760px); }
+.shot { position: relative; margin: 0; }
+.shot img, img.section-img { display: block; width: 100%; height: auto; border: 1px solid var(--os-border) !important; border-radius: var(--os-radius-lg) !important; background: var(--os-surface); cursor: zoom-in; transition: box-shadow .15s; margin-bottom: 0 !important; }
+.shot img:hover, img.section-img:hover { box-shadow: 0 4px 14px rgba(20,30,45,0.12); }
+.shot-no { position: absolute; top: 8px; left: 8px; z-index: 1; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: var(--os-ink); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,.25); pointer-events: none; }
+.step-shot { max-width: 760px; display: flex; flex-direction: column; gap: 10px; margin: 8px 0 6px !important; }
+.shot-hint { font-size: 11px; color: var(--os-text-mute); margin-top: 4px; }
+.os-figure { margin: 0 0 20px; }
+.os-figure figcaption { font-size: 12px; color: var(--os-text-mute); margin-top: 6px; }
+/* CLS対策（PC kintone 横長 / モバイル 縦長） */
+img.section-img.kintone-img[data-pc-src], img.kintone-top-pc { aspect-ratio: 1.73 / 1; }
+img.kintone-top-mobile-img { aspect-ratio: 0.5 / 1; }
+/* モバイル版の画像に差し替わったものだけ縦長で表示（モバイル画像がない手順はPC版のまま） */
+body.kintone-mobile-mode img.section-img.kintone-img.is-mobile { aspect-ratio: auto; width: 280px !important; max-width: 100%; height: auto; }
 
-  #sidebar {
-  position: fixed;
-  left: -280px;
-  top: 0;
-  height: 100vh;
-  height: 100dvh;
-  z-index: 999;
-  transition: left 0.25s ease;
-  padding-bottom: env(safe-area-inset-bottom);
-  }
+/* PC版 / モバイル版 切替 */
+.img-tabs { display: inline-flex; gap: 2px; padding: 3px; background: var(--os-neutral-bg); border: 1px solid var(--os-border); border-radius: 999px; }
+.img-tab { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; min-height: 34px; font-size: 12.5px; font-weight: 600; color: var(--os-text-mute); background: none; border: none; border-radius: 999px; cursor: pointer; transition: all .15s; }
+.img-tab:hover { color: var(--os-ink); }
+.img-tab.active { background: var(--os-surface); color: var(--os-accent); box-shadow: 0 1px 3px rgba(20,30,45,.12); }
+.kintone-top-pc { display: block; }
+.kintone-top-mobile { display: none; }
+body.kintone-mobile-mode .kintone-top-pc { display: none !important; }
+body.kintone-mobile-mode .kintone-top-mobile { display: block; }
+.kintone-top-mobile-row { display: none; gap: 12px; }
+body.kintone-mobile-mode .kintone-top-mobile-row { display: flex; }
+.kintone-top-mobile-row .shot { flex: 1 1 0; min-width: 0; max-width: 240px; }
 
-  #sidebar.open { left: 0;}
+/* ===== 検索結果 ===== */
+.search-head { font-size: 13px; color: var(--os-text-mute); margin-bottom: 16px; }
+.search-empty { text-align: center; padding: 60px 0; color: var(--os-text-mute); font-size: 14px; }
+.search-result { display: block; width: 100%; text-align: left; background: var(--os-surface); border: 1px solid var(--os-border); border-left: 3px solid var(--os-accent); border-radius: var(--os-radius); padding: 12px 16px; margin-bottom: 10px; cursor: pointer; transition: all .15s; color: inherit; }
+.search-result:hover { border-color: var(--os-accent); box-shadow: var(--os-shadow-card); }
+.search-path { font-size: 11.5px; color: var(--os-text-mute); margin-bottom: 3px; }
+.search-path b { color: var(--os-accent); font-weight: 700; }
+.search-title { font-size: 14px; font-weight: 600; color: var(--os-ink); }
+.search-preview { font-size: 12.5px; color: var(--os-text-body); margin-top: 4px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  .sidebar-overlay.open { display: block;}
+/* トースト */
+.os-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px); background: var(--os-ink); color: #fff; font-size: 13px; padding: 9px 16px; border-radius: 999px; opacity: 0; transition: all .2s; z-index: 99990; pointer-events: none; }
+.os-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  #main { width: 100%;}
-
-  .topbar { padding: 0 16px 0 58px;height: 50px;}
-
-  .content-area { padding: 20px 16px;}
-
-  .cat-title { font-size: 18px;}
-  .cat-icon-big { width: 40px;height: 40px;font-size: 20px;}
-
-  .login-box { width: 90vw;padding: 28px 20px;}
-
-  .section-header { padding: 12px 14px;}
-  .section-body { padding: 0 14px 14px 28px;}
-  }
-.tool-link{color:#0EA5E9;font-weight:600;text-decoration:none;}
-  /* PC/Mobile Tabs */
-  .img-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--content-border); margin-bottom: 12px; }
-  .img-tab { padding: 8px 16px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; user-select: none; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
-  .img-tab:hover { color: var(--content-text); }
-  .img-tab.active { color: #3B82F6; border-bottom-color: #3B82F6; }
-  .img-tab-icon { margin-right: 6px; font-size: 13px; }
-  body.kintone-mobile-mode .kintone-img { max-height: 400px; width: auto; max-width: 100%; display: block; }
-  body.kintone-mobile-mode .img-container { flex: 0 0 auto !important; min-width: 0 !important; max-width: 240px; }
-  /* セクショントップ画像：PCモード時はPC画像のみ表示、モバイルモード時はモバイル画像のみ表示 */
-  .kintone-top-pc { display: block; }
-  .kintone-top-mobile { display: none; }
-  body.kintone-mobile-mode .kintone-top-pc { display: none !important; }
-  body.kintone-mobile-mode .kintone-top-mobile { display: block; }
-  /* img専用のサイズ調整（task-listには適用されない） */
-  img.kintone-top-pc { width: 100%; }
-  /* モバイル画像3枚を横並びでレスポンシブ表示（画面幅1/3ずつ） */
-  .kintone-top-mobile-row { display: none; justify-content: center; gap: 12px; flex-wrap: nowrap; }
-  body.kintone-mobile-mode .kintone-top-mobile-row { display: flex; }
-  .kintone-top-mobile-img { flex: 1 1 0; min-width: 0; max-width: 33.333%; height: auto; object-fit: contain; }
+/* ===== レスポンシブ ===== */
+@media (max-width: 1024px) {
+  :root { --os-sidebar-w: 260px; }
+  .os-content { padding: 24px 28px 80px; }
+}
+@media (max-width: 768px) {
+  :root { --os-header-h: 52px; --os-fs-page: 22px; --os-fs-body: 15px; }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .os-header { padding: 0 12px; }
+  .os-header h1 { font-size: 13.5px; letter-spacing: 0; }
+  .os-header-right { gap: 8px; }
+  .os-icon-btn { padding: 6px 9px; }
+  .os-header-logo { display: none; }
+  .os-user span:last-child { display: none; }
+  .os-sidebar { position: fixed; left: 0; top: var(--os-header-h); z-index: 90; width: 86vw; max-width: 320px; transform: translateX(-102%); box-shadow: 4px 0 20px rgba(0,0,0,.18); padding-bottom: env(safe-area-inset-bottom); }
+  .os-sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  .sidebar-search input { font-size: 16px; padding-top: 9px; padding-bottom: 9px; }
+  .shortcut-hint { display: none; }
+  .sec-item { min-height: var(--os-tap); padding-top: 11px; padding-bottom: 11px; font-size: 14px; }
+  .os-content { padding: 16px 16px 72px; }
+  .os-overview { padding: 16px 18px; }
+  .os-cards, .os-cards.compact { grid-template-columns: 1fr; }
+  .os-card:hover { transform: none; }
+  .acc.l1 > .acc-head { padding: 12px 12px; }
+  .acc.l1 > .acc-body { padding: 12px 14px 16px 16px; }
+  .acc.l2 > .acc-head { padding: 10px 10px; }
+  .acc.l2 > .acc-body { padding: 4px 12px 16px 14px; }
+  .acc.l3 > .acc-body { padding: 2px 8px 12px 12px; }
+  .acc-link { display: none; }
+  .os-shots { grid-template-columns: 1fr; }
+  .os-shots.one { grid-template-columns: 1fr; }
+  .phase-sub { margin-left: 0; padding-left: 12px; }
+  .step-toc ol { grid-template-columns: 1fr; }
+  .meta-actions .meta-count { margin-left: 0; }
+}
+@media print {
+  .os-header, .os-sidebar, .meta-actions, .back-btn { display: none !important; }
+  .os-content { padding: 0; max-width: none; }
+  .acc-body { display: block !important; }
+}
 </style>
-<style type="text/css" data-comment-style=""></style></head>
+</head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- ログイン -->
 <div id="loginScreen" style="display: none;">
   <div class="login-box">
-  <div class="login-logo">📚</div>
-  <div class="login-title">税務キーパー</div>
-  <div class="login-sub">業務マニュアル</div>
-  <div class="login-label" style="margin-bottom:8px;">メールアドレス</div>
-  <input type="email" id="loginEmail" placeholder="example@email.com" style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:10px 12px;font-size:13px;color:#F9FAFB;font-family:inherit;outline:none;margin-bottom:14px;box-sizing:border-box;" onfocus="this.style.borderColor=&#39;#3B82F6&#39;" onblur="this.style.borderColor=&#39;#374151&#39;">
-  <div class="login-label" style="margin-bottom:8px;">パスワード</div>
-  <input type="password" id="loginPassword" placeholder="パスワード" style="width:100%;background:#111827;border:1px solid #374151;border-radius:8px;padding:10px 12px;font-size:13px;color:#F9FAFB;font-family:inherit;outline:none;margin-bottom:6px;box-sizing:border-box;" onfocus="this.style.borderColor=&#39;#3B82F6&#39;" onblur="this.style.borderColor=&#39;#374151&#39;" onkeydown="if(event.key===&#39;Enter&#39;)doLogin()">
-  <div id="loginError" style="color:#EF4444;font-size:12px;min-height:18px;margin-bottom:10px;"></div>
-  <button onclick="doLogin()" style="width:100%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:opacity 0.15s;" onmouseover="this.style.opacity=&#39;0.9&#39;" onmouseout="this.style.opacity=&#39;1&#39;">ログイン</button>
+    <div class="login-brand">
+      <div class="login-logo">📚</div>
+      <div class="login-title">税務キーパー</div>
+      <div class="login-sub">業務マニュアル</div>
+    </div>
+    <label class="login-label" for="loginEmail">メールアドレス</label>
+    <input class="login-input" type="email" id="loginEmail" placeholder="example@email.com" autocomplete="username">
+    <label class="login-label" for="loginPassword">パスワード</label>
+    <input class="login-input" type="password" id="loginPassword" placeholder="パスワード" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" type="button" onclick="doLogin()">ログイン</button>
+    <div id="loginError" class="login-error"></div>
   </div>
 </div>
-
-<!-- HAMBURGER & OVERLAY -->
-<div class="hamburger" id="hamburger" onclick="toggleSidebar()">
-  <span></span><span></span><span></span>
-</div>
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <!-- QRコード共通モーダル -->
 <div id="featureModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:9998;align-items:center;justify-content:center;">
@@ -349,66 +370,41 @@
   </div>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;">
-  <img id="lightboxImg" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+<!-- 画像の拡大表示 -->
+<div id="lightbox" onclick="if(event.target===this)closeLightbox()" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;">
+  <img id="lightboxImg" src="" alt="" style="max-width:94vw;max-height:90vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
   <div onclick="closeLightbox()" style="position:fixed;top:14px;right:20px;color:#fff;font-size:36px;cursor:pointer;line-height:1;font-weight:300;">✕</div>
 </div>
 
-<!-- SIDEBAR -->
-<aside id="sidebar">
-  <div class="sidebar-header">
-  <div class="sidebar-logo">
-    <div class="sidebar-logo-icon">📚</div>
-    <div>
-      <div class="sidebar-logo-text">税務キーパー</div>
-      <div class="sidebar-logo-sub">業務マニュアル</div>
-    </div>
+<!-- ヘッダー -->
+<header class="os-header">
+  <div class="os-header-left">
+    <button class="menu-toggle" type="button" onclick="toggleSidebar()" aria-label="メニュー">☰</button>
+    <div class="os-header-logo">📚</div>
+    <h1>税務キーパー <span class="sub">業務マニュアル</span></h1>
   </div>
+  <div class="os-header-right">
+    <div class="os-user"><span class="os-avatar" id="sidebarAvatar"></span><span id="sidebarUserName"></span></div>
+    <button class="os-icon-btn" type="button" onclick="doLogout()">ログアウト</button>
   </div>
-  <div class="sidebar-search">
-  <span class="sidebar-search-icon">🔍</span>
-  <input type="text" id="searchInput" placeholder="キーワード検索..." oninput="handleSearch(this.value)">
-  </div>
-  <nav class="sidebar-nav" id="sidebarNav"><div class="nav-section-label">カテゴリ</div><div class="nav-item active">
-    <div class="nav-accent-bar" style="background:#A21034"></div>
-    <span class="nav-item-icon">💼</span>
-    <span class="nav-item-label">営業</span>
-    <span class="nav-item-badge">5</span>
-  </div><div class="nav-item">
-    <div class="nav-accent-bar" style="background:#F97316"></div>
-    <span class="nav-item-icon">🗓️</span>
-    <span class="nav-item-label">定期業務</span>
-    <span class="nav-item-badge">2</span>
-  </div><div class="nav-item">
-    <div class="nav-accent-bar" style="background:#10B981"></div>
-    <span class="nav-item-icon">💰</span>
-    <span class="nav-item-label">報酬計算</span>
-    <span class="nav-item-badge">3</span>
-  </div><div class="nav-item">
-    <div class="nav-accent-bar" style="background:#0EA5E9"></div>
-    <span class="nav-item-icon">🛠️</span>
-    <span class="nav-item-label">ツール管理</span>
-    <span class="nav-item-badge">3</span>
-  </div></nav>
-  <div class="sidebar-user" id="sidebarUser">
-  <div class="sidebar-user-avatar" id="sidebarAvatar" style="background: rgb(59, 130, 246);">管</div>
-  <div class="sidebar-user-name" id="sidebarUserName">管理者</div>
-  <div class="sidebar-user-switch" onclick="event.stopPropagation();doLogout()" title="ログアウト" style="cursor:pointer;">ログアウト</div>
-  </div>
-</aside>
+</header>
 
-<!-- MAIN -->
-<div id="main">
-  <div class="topbar" id="topbar">
-  <div class="breadcrumb">
-    <span>マニュアル</span>
-    <span class="breadcrumb-sep">›</span>
-    <span class="breadcrumb-current" id="breadcrumbCurrent">営業</span>
-  </div>
-  <span class="topbar-badge" style="background: rgba(162, 16, 52, 0.082); color: rgb(162, 16, 52);">3 セクション</span></div>
-  <div class="content-area" id="contentArea"></div>
+<div class="os-layout">
+  <!-- サイドバー -->
+  <aside id="sidebar" class="os-sidebar">
+    <div class="sidebar-search">
+      <input type="search" id="searchInput" placeholder="業務・キーワードを検索" oninput="handleSearch(this.value)" aria-label="マニュアル内を検索">
+      <div class="shortcut-hint"><kbd>/</kbd> または <kbd>⌘K</kbd> で検索</div>
+    </div>
+    <div class="nav-label">カテゴリ</div>
+    <ul class="nav-list" id="sidebarNav"></ul>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- 本文 -->
+  <main class="os-content" id="contentArea"></main>
 </div>
+<div class="os-toast" id="osToast"></div>
 
 <script>
 
@@ -435,6 +431,7 @@ function switchKintoneMode(mode) {
   imgs.forEach(img => {
     const newSrc = mode === 'mobile' ? img.dataset.mobileSrc : img.dataset.pcSrc;
     if (newSrc && img.src !== newSrc) img.src = newSrc;
+    img.classList.toggle('is-mobile', mode === 'mobile' && !!img.dataset.mobileSrc && img.dataset.mobileSrc !== img.dataset.pcSrc);
     // Lightbox用のsrc登録も更新
     const k = img.dataset.lbKey;
     if (k && window._lbSrcs) window._lbSrcs[k] = newSrc;
@@ -1409,9 +1406,17 @@ const data = [
   }
 ];
 
+/* =====================================================================
+   画面の状態
+   URL: #<カテゴリid>                 → カテゴリ画面
+        #<カテゴリid>/<セクション番号>  → セクション画面
+        #<カテゴリid>/<セクション>/<項目>/<子>/<孫> → セクション画面を開き、該当の項目まで展開してスクロール
+   旧URL（#sales-legal など）はそのまま開ける
+   ===================================================================== */
 let currentCat = data[0];
-let openSections = new Set();
+let currentSecIdx = null;          // null = カテゴリ画面
 let searchQuery = "";
+const expandedCats = new Set();
 
 const members = [
   {
@@ -1469,68 +1474,26 @@ function selectMember(member) {
   localStorage.setItem("manualUser", member.id);
   document.getElementById("loginScreen").style.display = "none";
 
-  // サイドバーのユーザー表示を更新
-  document.getElementById("sidebarAvatar").textContent = member.initial;
-  document.getElementById("sidebarAvatar").style.background = member.color;
+  // ヘッダーのユーザー表示
+  const av = document.getElementById("sidebarAvatar");
+  av.textContent = member.initial;
+  av.style.background = member.color;
   document.getElementById("sidebarUserName").textContent = member.name;
 
-  // カテゴリフィルター適用
-  const filtered = member.categories
-  ? data.filter(cat => member.categories.includes(cat.id))
-  : data;
-
-  currentCat = filtered[0];
-  buildFilteredNav(filtered);
-  renderContent(filtered[0]);
-
-  // URLハッシュがあれば反映
-  setTimeout(handleHashChange, 100);
+  currentCat = allowedCats()[0];
+  route();
 }
 
-function buildFilteredNav(filteredData) {
-  const nav = document.getElementById("sidebarNav");
-  nav.innerHTML = '<div class="nav-section-label">カテゴリ</div>';
-  filteredData.forEach(cat => {
-  const el = document.createElement("div");
-  el.className = "nav-item" + (cat.id === currentCat.id ? " active" : "");
-  el.innerHTML = `
-    <div class="nav-accent-bar" style="background:${cat.color}"></div>
-    <span class="nav-item-icon">${cat.icon}</span>
-    <span class="nav-item-label">${cat.label}</span>
-    <span class="nav-item-badge">${cat.sections.length}</span>
-  `;
-  el.onclick = () => {
-    if (searchQuery) { document.getElementById("searchInput").value = ""; searchQuery = ""; }
-    currentCat = cat; openSections.clear();
-    buildFilteredNav(filteredData); renderContent(cat);
-    closeSidebar();
-  };
-  nav.appendChild(el);
-  });
+// 権限で見られるカテゴリ（member.categories が null なら全カテゴリ）
+function allowedCats() {
+  if (!currentMember) return [];
+  return currentMember.categories ? data.filter(c => currentMember.categories.includes(c.id)) : data;
 }
 
 // ========== モーダル共通クローズ ==========
-
 function closeFeatureModal() {
   document.getElementById("featureModal").style.display = "none";
 }
-
-// ========== URLハッシュからの復元 ==========
-function handleHashChange() {
-  const hash = decodeURIComponent(window.location.hash.substring(1));
-  if (hash) {
-  const cat = data.find(c => c.id === hash);
-  if (cat && currentMember) {
-    currentCat = cat;
-    openSections.clear();
-    const filtered = currentMember.categories ? data.filter(c => currentMember.categories.includes(c.id)) : data;
-    buildFilteredNav(filtered);
-    renderContent(cat);
-  }
-  }
-}
-
-window.addEventListener("hashchange", handleHashChange);
 
 // ========== メモ・お気に入り機能の廃止に伴うlocalStorageクリーンアップ ==========
 // 2026-04-29: メモ機能・お気に入り機能を廃止。過去にユーザー端末に保存された
@@ -1557,14 +1520,36 @@ function cleanupRemovedFeatures() {
 }
 try { cleanupRemovedFeatures(); } catch (e) { console.warn("Cleanup failed:", e); }
 
-// tasks配列を描画するヘルパー：文字列は通常のリスト項目、{type:"heading", text:"..."}は見出し扱い
+/* ===================== 共通の小部品 ===================== */
+const CHEV = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 2.5 8 6l-3.5 3.5"/></svg>';
+const _CIRC_ = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟";
+
+function escAttr(s) { return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;"); }
+function kidsOf(node) { return node.subsections || node.children || []; }
+function pad2(n) { return String(n).padStart(2, "0"); }
+function plain(s, max) {
+  const t = stripHtml(s || "").replace(/\s+/g, " ").trim();
+  return max && t.length > max ? t.slice(0, max) + "…" : t;
+}
+function isPlaceholder(t) { return typeof t === "string" && /^（マニュアル未登録）$/.test(t.trim()); }
+
+function toast(msg) {
+  const el = document.getElementById("osToast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+}
+
+// 箇条書き（文字列＝通常の項目、{type:"heading"}＝見出し、（マニュアル未登録）＝準備中の表示）
 function renderTasks(tasks) {
   if (!tasks || tasks.length === 0) return "";
   const items = tasks.map(t => {
     if (typeof t === "object" && t.type === "heading") {
       return `<div class="task-heading">${t.text}</div>`;
     }
-    return `<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`;
+    if (isPlaceholder(t)) return `<div class="task-item" style="padding-left:0"><span class="os-empty">準備中（マニュアル未登録）</span></div>`;
+    return `<div class="task-item"><span>${t}</span></div>`;
   }).join("");
   return `<div class="task-list">${items}</div>`;
 }
@@ -1610,7 +1595,8 @@ function renderPhases(phases, title, notice, keyPrefix, isKintone) {
       const k2 = `${keyPrefix}_p${phi}_${ii}`;
       const mobileSrc = phMobile[ii] || src;
       _lbSrcs[k2] = src;
-      return `<img alt="${ph.heading || title}" loading="lazy" src="${src}" data-pc-src="${src}" data-mobile-src="${mobileSrc}" data-lb-key="${k2}" class="section-img${isKintone ? ' kintone-img' : ''}" onerror="if(this.src!==this.dataset.pcSrc){this.src=this.dataset.pcSrc;}" onclick="openLightbox('${k2}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;display:block;cursor:zoom-in;margin-bottom:8px;">`;
+      const _numbered = phImgs.length > 1 || (ph.items || []).some(t => typeof t === "string" && /画像\s*[①-⑳㉑-㉟]/.test(t));
+      return `<figure class="shot">${_numbered ? `<span class="shot-no">${_CIRC_[ii]}</span>` : ""}<img alt="${ph.heading || title}" loading="lazy" src="${src}" data-pc-src="${src}" data-mobile-src="${mobileSrc}" data-lb-key="${k2}" class="section-img${isKintone ? ' kintone-img' : ''}" onerror="if(this.src!==this.dataset.pcSrc){this.src=this.dataset.pcSrc;}" onclick="openLightbox('${k2}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;display:block;cursor:zoom-in;margin-bottom:8px;"></figure>`;
     };
     const _hd = ph.heading || '';
     const isMainStep = /^(手順|チェック\d|はじめに)/.test(_hd);
@@ -1683,301 +1669,337 @@ function renderPhases(phases, title, notice, keyPrefix, isKintone) {
 
 }
 
-
-// notice枠を描画するヘルパー（共通化）
+// 注意枠（必須項目は赤、それ以外は注意の黄色）
 function renderNotice(notice) {
   if (!notice) return "";
+  const required = /必須/.test(notice.title || "") || /必須/.test(notice.itemsLabel || "");
+  const kind = required ? "required" : "warn";
+  const ic = required ? "❗" : "⚠️";
   const itemsHtml = notice.items && notice.items.length > 0
-    ? `<div style="margin-top:6px;color:#374151;">${notice.itemsLabel || "対象項目："}</div>
-       <div style="margin-top:2px;color:#374151;padding-left:4px;">${notice.items.map(it=>`<div>・${it}</div>`).join("")}</div>`
+    ? `<div style="margin-top:6px;">${notice.itemsLabel || "対象項目："}</div>
+       <div class="task-list">${notice.items.map(it => `<div class="task-item"><span>${it}</span></div>`).join("")}</div>`
     : "";
-  return `<div style="margin-top:12px;padding:10px 12px;background:#FFF8E1;border-left:4px solid #F59E0B;border-radius:4px;font-size:12px;line-height:1.6;">
-    <div style="font-weight:bold;color:#92400E;margin-bottom:4px;">⚠️ ${notice.title || "注意"}</div>
-    ${notice.body ? `<div style="color:#374151;">${notice.body}</div>` : ""}
+  return `<div class="callout ${kind}"><span class="callout-ic">${ic}</span><div class="callout-body">
+    <div class="callout-label">${notice.title || "注意"}</div>
+    ${notice.body ? `<div>${notice.body}</div>` : ""}
     ${itemsHtml}
-    ${notice.footnote ? `<div style="margin-top:6px;color:#6B7280;font-size:11px;">${notice.footnote}</div>` : ""}
+    ${notice.footnote ? `<div class="callout-foot">${notice.footnote}</div>` : ""}
+  </div></div>`;
+}
+
+// 表示仕様（関連レコード一覧）・ルックアップ仕様
+function renderSpec(spec, kind) {
+  if (!spec) return "";
+  const isLookup = kind === "lookup";
+  const ic = isLookup ? "🔗" : "📋";
+  const title = spec.title || (isLookup ? "ルックアップ仕様" : "表示仕様");
+  const items = (spec.items || []).map(it => {
+    const canJump = it.source && SOURCE_TO_SUB_TITLE[it.source];
+    const link = (label) => canJump ? `<button type="button" class="jump-link" onclick="jumpToSubsection('${it.source}')">${label}</button>` : label;
+    const srcLine = it.source ? `<div class="spec-src">${link(it.source)}${isLookup ? "の情報を取得します。" : "に登録されている情報を表示します。"}</div>` : "";
+    const usage = it.usage && it.usage.length ? `<div class="spec-sub">用途：</div>${renderTasks(it.usage)}` : "";
+    return `<div class="spec-item"><div class="spec-id">${link(it.id)}</div>${srcLine}
+      <div class="spec-sub">${isLookup ? "取得される主な情報：" : "表示される主な情報："}</div>${renderTasks(it.fields)}${usage}</div>`;
+  }).join("");
+  return `<div class="callout ${isLookup ? "lookup" : "spec"}"><span class="callout-ic">${ic}</span><div class="callout-body">
+    <div class="callout-label">${title}</div>${spec.description ? `<div>${spec.description}</div>` : ""}${items}</div></div>`;
+}
+
+// 画像（PC/モバイル両対応・クリックで拡大）
+function shotHtml(src, key, alt, kintone, mobileSrc, no) {
+  _lbSrcs[key] = src;
+  const badge = no ? `<span class="shot-no">${no}</span>` : "";
+  return `<figure class="shot">${badge}<img alt="${escAttr(alt || "画像")}" loading="lazy" src="${src}" data-pc-src="${src}" data-mobile-src="${mobileSrc || src}" data-lb-key="${key}" class="section-img${kintone ? " kintone-img" : ""}" onerror="if(this.src!==this.dataset.pcSrc){this.src=this.dataset.pcSrc;}" onclick="openLightbox('${key}')"></figure>`;
+}
+function shotsHtml(node, keyPrefix, kintone) {
+  const imgs = node.images || (node.image ? [node.image] : []);
+  if (!imgs.length) return "";
+  const mob = node.mobileImages || (node.mobileImage ? [node.mobileImage] : []);
+  const numbered = imgs.length > 1;
+  return `<div class="os-shots${imgs.length === 1 ? " one" : ""}">` +
+    imgs.map((src, i) => shotHtml(src, `${keyPrefix}_${i}`, node.title, kintone, mob[i], numbered ? _CIRC_[i] : "")).join("") +
+    `</div>`;
+}
+
+// 1つの項目（節）の中身
+function nodeBody(node, keyPrefix, kintone) {
+  let h = "";
+  if (node.phases) {
+    h += renderPhases(node.phases, node.title, node.notice, keyPrefix, kintone);
+  } else {
+    h += renderTasks(node.tasks);
+    h += shotsHtml(node, keyPrefix, kintone);
+    h += renderNotice(node.notice);
+  }
+  h += renderSpec(node.displaySpec, "display");
+  h += renderSpec(node.lookupSpec, "lookup");
+  return h;
+}
+
+function countLabel(node) {
+  const kids = kidsOf(node);
+  if (kids.length) return `${kids.length}項目`;
+  if (node.phases) {
+    const steps = node.phases.filter(p => p.heading).length;
+    return steps ? `${steps}手順` : "";
+  }
+  const n = (node.tasks || []).filter(t => !isPlaceholder(t)).length;
+  return n ? `${n}項目` : "準備中";
+}
+
+/* ===================== アコーディオン ===================== */
+// path = [項目, 子, 孫] の番号。id は acc-<セクション>-<項目>-<子>…
+function accId(path) { return `acc-${currentSecIdx}-${path.join("-")}`; }
+
+function renderAcc(node, path, level, kintone, openByDefault) {
+  const id = accId(path);
+  const kids = kidsOf(node);
+  const keyPrefix = `k_${currentCat.id}_${currentSecIdx}_${path.join("_")}`;
+  const body = nodeBody(node, keyPrefix, kintone) +
+    (kids.length ? `<div class="acc-sublist">${kids.map((k, i) => renderAcc(k, path.concat(i), level + 1, kintone, false)).join("")}</div>` : "");
+  return `<div class="acc l${Math.min(level, 3)}${openByDefault ? " open" : ""}" id="${id}">
+    <button type="button" class="acc-head" aria-expanded="${openByDefault ? "true" : "false"}" onclick="toggleAcc('${id}')">
+      <span class="acc-chev">${CHEV}</span>
+      <span class="acc-title">${node.title}</span>
+      <span class="acc-link" role="button" title="この項目へのリンクをコピー" onclick="event.stopPropagation();copyLink('${path.join("/")}')">🔗</span>
+      <span class="acc-count">${countLabel(node)}</span>
+    </button>
+    <div class="acc-body">${body}</div>
   </div>`;
 }
 
-function init() {
-  const savedId = localStorage.getItem("manualUser");
-  if (savedId) {
-  const member = members.find(m => m.id === savedId);
-  if (member) { selectMember(member); return; }
-  }
-  // 保存なし → ログイン画面を表示
-  document.getElementById("loginScreen").style.display = "flex";
+function toggleAcc(id, force) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const open = force === undefined ? !el.classList.contains("open") : force;
+  el.classList.toggle("open", open);
+  el.querySelector(":scope > .acc-head").setAttribute("aria-expanded", open ? "true" : "false");
+  // 閉じるときは配下もすべて閉じる
+  if (!open) el.querySelectorAll(".acc.open").forEach(c => { c.classList.remove("open"); c.querySelector(":scope > .acc-head").setAttribute("aria-expanded", "false"); });
 }
 
+// 指定の項目まで開いてスクロール
+function openPath(path, smooth) {
+  if (!path || !path.length) return;
+  let target = null;
+  for (let i = 1; i <= path.length; i++) {
+    const el = document.getElementById(accId(path.slice(0, i)));
+    if (!el) break;
+    toggleAcc(el.id, true);
+    target = el;
+  }
+  if (!target) return;
+  setTimeout(() => {
+    target.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+    target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash");
+  }, 30);
+}
+
+// セクションの中身が浅い（子・手順・画像のない項目だけ）なら最初から開く
+function isShallowSection(sec) {
+  const subs = sec.subsections || [];
+  return subs.every(s => !kidsOf(s).length && !s.phases && !s.images && !s.image);
+}
+
+/* ===================== サイドバー ===================== */
 function buildNav() {
   const nav = document.getElementById("sidebarNav");
-  nav.innerHTML = '<div class="nav-section-label">カテゴリ</div>';
-  data.forEach(cat => {
-  const el = document.createElement("div");
-  el.className = "nav-item" + (cat.id === currentCat.id ? " active" : "");
-  el.innerHTML = `
-    <div class="nav-accent-bar" style="background:${cat.color}"></div>
-    <span class="nav-item-icon">${cat.icon}</span>
-    <span class="nav-item-label">${cat.label}</span>
-    <span class="nav-item-badge">${cat.sections.length}</span>
-  `;
-  el.onclick = () => {
-    if (searchQuery) { document.getElementById("searchInput").value = ""; searchQuery = ""; }
-    currentCat = cat; openSections.clear(); buildNav(); renderContent(cat);
-  };
-  nav.appendChild(el);
-  });
+  const cats = allowedCats();
+  nav.innerHTML = cats.map((cat, ci) => {
+    const isCur = !searchQuery && cat.id === currentCat.id;
+    const exp = expandedCats.has(cat.id);
+    const secs = cat.sections.map((s, si) =>
+      `<li><button type="button" class="sec-item${isCur && currentSecIdx === si ? " active" : ""}" onclick="go('${cat.id}/${si}')">${s.title}</button></li>`).join("");
+    return `<li>
+      <button type="button" class="cat-item${isCur ? " is-current" : ""}${exp ? " expanded" : ""}" onclick="go('${cat.id}')" aria-expanded="${exp}">
+        <span class="cat-num">${ci + 1}</span>
+        <span class="cat-label">${cat.icon} ${cat.label}</span>
+        <span class="cat-arrow" role="button" aria-label="開閉" onclick="event.stopPropagation();toggleCatNav('${cat.id}')">▶</span>
+      </button>
+      <ul class="sec-list${exp ? " show" : ""}">${secs}</ul>
+    </li>`;
+  }).join("");
+}
+function toggleCatNav(id) {
+  if (expandedCats.has(id)) expandedCats.delete(id); else expandedCats.add(id);
+  buildNav();
 }
 
-function renderContent(cat) {
-  document.getElementById("breadcrumbCurrent").textContent = cat.label;
+/* ===================== ルーティング ===================== */
+let _pendingSmooth = false;
+function go(hash, smooth) {
+  _pendingSmooth = !!smooth;
+  if (searchQuery) { document.getElementById("searchInput").value = ""; searchQuery = ""; }
+  if (decodeURIComponent(location.hash.slice(1)) === hash) route();
+  else location.hash = hash;
+}
+
+function route() {
+  if (!currentMember) return;
+  const cats = allowedCats();
+  const parts = decodeURIComponent(location.hash.replace(/^#\/?/, "")).split("/").filter(Boolean);
+  const cat = cats.find(c => c.id === parts[0]) || cats[0];
+  currentCat = cat;
+  let si = parts.length > 1 ? parseInt(parts[1], 10) : NaN;
+  currentSecIdx = (!isNaN(si) && cat.sections[si]) ? si : null;
+  const rest = parts.slice(2).map(n => parseInt(n, 10)).filter(n => !isNaN(n));
+
+  expandedCats.add(cat.id);
+  if (searchQuery) { document.getElementById("searchInput").value = ""; searchQuery = ""; }
+  buildNav();
+  if (currentSecIdx === null) renderCategory(cat); else renderSection(cat, currentSecIdx);
+  if (rest.length) openPath(rest, _pendingSmooth); else window.scrollTo(0, 0);
+  _pendingSmooth = false;
+  closeSidebar();
+}
+window.addEventListener("hashchange", route);
+// 互換：以前の関数名
+function handleHashChange() { route(); }
+function renderContent(cat) { go(cat.id); }
+
+// 戻る：アプリ内で移動してきた場合は1つ前へ、直リンクで開いた場合はカテゴリへ
+function goBack() {
+  if (window._navCount > 0) { history.back(); return; }
+  go(currentCat.id);
+}
+window._navCount = 0;
+window.addEventListener("hashchange", () => { window._navCount++; });
+
+function copyLink(sub) {
+  const base = location.href.split("#")[0];
+  const hash = currentSecIdx === null ? currentCat.id : `${currentCat.id}/${currentSecIdx}${sub ? "/" + sub : ""}`;
+  const url = `${base}#${hash}`;
+  const done = () => toast("リンクをコピーしました");
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt("このリンクをコピーしてください", url));
+  else prompt("このリンクをコピーしてください", url);
+}
+
+function breadcrumbHtml(cat, sec) {
+  const parts = [`<span>業務マニュアル</span>`];
+  if (sec) parts.push(`<button type="button" onclick="go('${cat.id}')">${cat.icon} ${cat.label}</button>`, `<span>${sec.title}</span>`);
+  else parts.push(`<span>${cat.icon} ${cat.label}</span>`);
+  return `<nav class="breadcrumb" aria-label="現在地">${parts.join('<span class="sep">/</span>')}</nav>`;
+}
+
+/* ===================== カテゴリ画面 ===================== */
+function secSummary(sec) {
+  const firstTask = (sec.tasks || []).find(t => typeof t === "string" && !isPlaceholder(t));
+  if (firstTask) return plain(firstTask, 70);
+  const subs = sec.subsections || [];
+  if (subs.length) return plain(subs.map(s => s.title).join("・"), 70);
+  return "";
+}
+
+function renderCategory(cat) {
   const area = document.getElementById("contentArea");
-  const topbar = document.getElementById("topbar");
-  const oldBadge = topbar.querySelector(".topbar-badge");
-  if (oldBadge) oldBadge.remove();
-  const badge = document.createElement("span");
-  badge.className = "topbar-badge";
-  badge.style.background = cat.color + "15";
-  badge.style.color = cat.color;
-  badge.textContent = `${cat.sections.length} セクション`;
-  topbar.appendChild(badge);
+  const cards = cat.sections.map((sec, i) => {
+    const n = (sec.subsections && sec.subsections.length) || (sec.tasks || []).length;
+    const sum = secSummary(sec);
+    return `<button type="button" class="os-card" onclick="go('${cat.id}/${i}')">
+      <span class="os-card-num">${pad2(i + 1)}</span>
+      <span class="os-card-main">
+        <span class="os-card-name" style="display:block">${sec.title}</span>
+        ${sum ? `<span class="os-card-desc">${escHtml(sum)}</span>` : ""}
+        <span class="os-card-meta" style="display:block">${n}項目</span>
+      </span>
+      <span class="os-card-arrow">›</span>
+    </button>`;
+  }).join("");
+  area.innerHTML = `
+    <div class="page-top">${breadcrumbHtml(cat, null)}</div>
+    <h2 class="page-title"><span class="pt-icon">${cat.icon}</span>${cat.label}</h2>
+    <div class="meta-actions"><button type="button" onclick="copyLink()">🔗 リンクをコピー</button><span class="meta-count">${cat.sections.length} セクション</span></div>
+    ${cat.desc ? `<div class="os-overview"><div class="os-overview-label">業務概要</div>${cat.desc}</div>` : ""}
+    <section class="block">
+      <h3 class="block-title">セクション一覧</h3>
+      <div class="os-cards">${cards}</div>
+    </section>`;
+}
+
+/* ===================== セクション画面 ===================== */
+function kintoneTopHtml(sec) {
+  let h = "";
+  // 説明文（PC/モバイルで文面が異なる）
+  if (sec.topPcTasks) h += `<div class="kintone-top-pc">${renderTasks(sec.topPcTasks)}</div>`;
+  if (sec.topMobileTasks) h += `<div class="kintone-top-mobile">${renderTasks(sec.topMobileTasks)}</div>`;
+  // トップ画面
+  if (sec.topImage) {
+    _lbSrcs["top_pc"] = sec.topImage;
+    h += `<figure class="os-figure kintone-top-pc" style="max-width:760px;margin-top:14px"><div class="shot"><img alt="${escAttr(sec.title)}" loading="lazy" src="${sec.topImage}" class="section-img kintone-top-pc" onclick="openLightbox('top_pc')"></div><figcaption>スペースのトップ画面（クリックで拡大）</figcaption></figure>`;
+  }
+  if (sec.topMobileImages && sec.topMobileImages.length) {
+    h += `<div class="kintone-top-mobile-row" style="margin-top:14px">` + sec.topMobileImages.map((src, i) => {
+      _lbSrcs["top_m" + i] = src;
+      return `<div class="shot"><img alt="${escAttr(sec.title)}（モバイル）" loading="lazy" src="${src}" class="section-img kintone-top-mobile-img" onclick="openLightbox('top_m${i}')"></div>`;
+    }).join("") + `</div>`;
+  }
+  return h;
+}
+
+// PC版 / モバイル版の切替（Kintoneセクションのページ上部に表示）
+function kintoneTabsHtml() {
+  const m = window._kintoneMode === "mobile";
+  return `<div class="img-tabs" role="tablist" aria-label="画面キャプチャの種類" title="このページの画面キャプチャをPC版／モバイル版で切り替えます（モバイル版の画像がない手順はPC版を表示）">
+      <button type="button" class="img-tab${m ? "" : " active"}" data-mode="pc" onclick="switchKintoneMode('pc')">🖥 PC版</button>
+      <button type="button" class="img-tab${m ? " active" : ""}" data-mode="mobile" onclick="switchKintoneMode('mobile')">📱 モバイル版</button>
+    </div>`;
+}
+
+function renderSection(cat, si) {
+  const sec = cat.sections[si];
+  const area = document.getElementById("contentArea");
+  const subs = sec.subsections || [];
+  const kintone = !!sec.kintoneTabs;
+  const shallow = isShallowSection(sec);
+  const keyPrefix = `k_${cat.id}_${si}`;
+
+  let overview = "";
+  if (kintone) {
+    overview = kintoneTopHtml(sec);
+  } else {
+    overview = renderTasks(sec.tasks) + shotsHtml(sec, keyPrefix, false);
+  }
+  if (sec.mapImage) {
+    _lbSrcs["map_" + si] = sec.mapImage;
+    overview = `<figure class="os-figure"><div class="shot"><img alt="${escAttr(sec.title)}全体図" loading="lazy" src="${sec.mapImage}" class="section-img" style="max-width:1000px" onclick="openLightbox('map_${si}')"></div><figcaption>${sec.title}の全体図（クリックで拡大）</figcaption></figure>` + overview;
+  }
+
+  // 項目一覧（項目が多く、閉じた状態で始まるセクションだけ）
+  let index = "";
+  if (subs.length >= 4 && !shallow) {
+    index = `<section class="block"><h3 class="block-title">項目一覧</h3><div class="os-cards compact">` +
+      subs.map((s, i) => `<button type="button" class="os-card" onclick="openPath([${i}], true)">
+        <span class="os-card-num">${pad2(i + 1)}</span>
+        <span class="os-card-main"><span class="os-card-name" style="display:block">${s.title}</span><span class="os-card-meta" style="display:block">${countLabel(s)}</span></span>
+      </button>`).join("") + `</div></section>`;
+  }
+
+  const accs = subs.length
+    ? `<section class="block"><h3 class="block-title">${shallow ? "内容" : "詳細"}</h3><div class="acc-list">` +
+      subs.map((s, i) => renderAcc(s, [i], 1, kintone, shallow || subs.length === 1)).join("") + `</div></section>`
+    : "";
+
+  // 前後のセクション
+  const prev = cat.sections[si - 1], next = cat.sections[si + 1];
+  const pager = (prev || next) ? `<div class="os-cards" style="margin-top:48px;padding-top:20px;border-top:1px solid var(--os-border)">
+      ${prev ? `<button type="button" class="os-card" onclick="go('${cat.id}/${si - 1}')"><span class="os-card-arrow">‹</span><span class="os-card-main"><span class="os-card-meta" style="display:block;margin:0">前のセクション</span><span class="os-card-name" style="display:block">${prev.title}</span></span></button>` : "<span></span>"}
+      ${next ? `<button type="button" class="os-card" onclick="go('${cat.id}/${si + 1}')" style="text-align:right"><span class="os-card-main"><span class="os-card-meta" style="display:block;margin:0">次のセクション</span><span class="os-card-name" style="display:block">${next.title}</span></span><span class="os-card-arrow">›</span></button>` : ""}
+    </div>` : "";
 
   area.innerHTML = `
-  <div class="cat-header">
-    <div class="cat-icon-big" style="background:${cat.color}15">${cat.icon}</div>
-    <div>
-      <div class="cat-title" style="color:${cat.color}">${cat.label}</div>
-      <div class="cat-desc">${cat.desc}</div>
-    </div>
-  </div>
-  <div class="sections-grid" id="sectionsGrid"></div>
-  `;
+    <div class="page-top"><button type="button" class="back-btn" onclick="goBack()"><span>←</span>戻る</button>${breadcrumbHtml(cat, sec)}</div>
+    <h2 class="page-title">${sec.title}</h2>
+    <div class="meta-actions">${kintone ? kintoneTabsHtml() : ""}<button type="button" onclick="copyLink()">🔗 リンクをコピー</button><span class="meta-count">${subs.length ? subs.length + "項目" : ""}</span></div>
+    ${index}
+    ${overview.trim() ? `<section class="block">${index ? `<h3 class="block-title">概要</h3>` : ""}${overview}</section>` : ""}
+    ${accs}
+    ${pager}`;
 
-  const grid = document.getElementById("sectionsGrid");
-  cat.sections.forEach((sec, i) => {
-  const card = document.createElement("div");
-  card.className = "section-card";
-  const isOpen = openSections.has(i);
-
-  let subsHtml = "";
-  if (sec.subsections && sec.subsections.length > 0) {
-    subsHtml = `<div class="subsection-list">${sec.kintoneTabs && sec.topImage ? (() => {
-        const tk = `top_${i}`;
-        _lbSrcs[tk] = sec.topImage;
-        const pcImg = `<img alt="${sec.title || ''}" loading="lazy" src="${sec.topImage}" data-lb-key="${tk}" class="section-img" onclick="openLightbox('${tk}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;cursor:zoom-in;margin-bottom:16px;">`;
-        const pcText = sec.topPcTasks && sec.topPcTasks.length > 0 ? `<div class="task-list" style="margin-bottom:16px;">${sec.topPcTasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : '';
-        return pcImg + pcText;
-      })() : ''}` +
-      sec.subsections.map((sub, si) => `
-        <div class="subsection-card">
-          <div class="subsection-header" onclick="toggleSubsection(event,'${i}-${si}')">
-            <span class="subsection-dot" style="background:${cat.color}"></span>
-            <span class="subsection-title">${sub.title}</span>
-            <span class="subsection-count">${(sub.subsections && sub.subsections.length) || (sub.children && sub.children.length) || (sub.tasks && sub.tasks.length) || 0}項目</span>
-            <span class="subsection-toggle" id="stog-${i}-${si}">+</span>
-          </div>
-          <div class="subsection-body" id="sbod-${i}-${si}">
-            ${(sub.image || (sub.images && sub.images.length > 0)) ? (() => {
-              const pcImgs = sub.images || (sub.image ? [sub.image] : []);
-              const mobileImgs = sub.mobileImages || (sub.mobileImage ? [sub.mobileImage] : []);
-              const imgHtmls = pcImgs.map((src, ii) => {
-                const k2 = `sub_${i}_${si}_${ii}`;
-                const mobileSrc = mobileImgs[ii] || src;
-                _lbSrcs[k2] = src;
-                return `<img alt="${sub.title || '画像'}" loading="lazy" src="${src}" data-pc-src="${src}" data-mobile-src="${mobileSrc}" data-lb-key="${k2}" class="section-img${sec.kintoneTabs ? ' kintone-img' : ''}" onerror="if(this.src!==this.dataset.pcSrc){this.src=this.dataset.pcSrc;}" onclick="openLightbox('${k2}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;display:block;cursor:zoom-in;margin-bottom:8px;">`;
-              }).join("");
-              return `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;">
-                <div class="img-container" style="flex:1.2;min-width:200px;">${imgHtmls}</div>
-                <div style="flex:1;min-width:180px;">${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}</div>
-              </div>`;
-            })() : `${sub.tasks.length > 0 ? `<div class="task-list">${sub.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}${renderNotice(sub.notice)}`}
-            ${sub.displaySpec ? `<div style="margin-top:12px;padding:10px 14px;background:#ECFDF5;border-left:4px solid #10B981;border-radius:4px;font-size:12px;line-height:1.6;">
-              <div style="font-weight:bold;color:#065F46;margin-bottom:8px;">📋 ${sub.displaySpec.title || "表示仕様"}</div>
-              ${sub.displaySpec.description ? `<div style="color:#374151;margin-bottom:8px;">${sub.displaySpec.description}</div>` : ""}
-              ${sub.displaySpec.items.map(it => {
-                const canJump = it.source && SOURCE_TO_SUB_TITLE[it.source];
-                const idHtml = canJump
-                  ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;font-weight:600;">${it.id}</a>`
-                  : `<span style="font-weight:600;color:#1F2937;">${it.id}</span>`;
-                const sourceHtml = canJump
-                  ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;">${it.source}</a>`
-                  : it.source;
-                return `<div style="margin-top:8px;">
-                <div>${idHtml}</div>
-                ${it.source ? `<div style="color:#6B7280;margin-top:1px;">${sourceHtml}に登録されている情報を表示します。</div>` : ""}
-                <div style="color:#374151;margin-top:4px;">表示される主な情報：</div>
-                <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.fields.map(f=>`<div>・${f}</div>`).join("")}</div>
-                ${it.usage && it.usage.length > 0 ? `<div style="color:#374151;margin-top:6px;">用途：</div>
-                <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.usage.map(u=>`<div>・${u}</div>`).join("")}</div>` : ""}
-              </div>`;
-              }).join("")}
-            </div>` : ""}
-            ${sub.lookupSpec ? `<div style="margin-top:12px;padding:10px 14px;background:#F3F4F6;border-left:4px solid #6366F1;border-radius:4px;font-size:12px;line-height:1.6;">
-              <div style="font-weight:bold;color:#3730A3;margin-bottom:8px;">🔗 ${sub.lookupSpec.title || "ルックアップ仕様"}</div>
-              ${sub.lookupSpec.description ? `<div style="color:#374151;margin-bottom:8px;">${sub.lookupSpec.description}</div>` : ""}
-              ${sub.lookupSpec.items.map(it => {
-                const canJump = it.source && SOURCE_TO_SUB_TITLE[it.source];
-                const idHtml = canJump
-                  ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;font-weight:600;">${it.id}</a>`
-                  : `<span style="font-weight:600;color:#1F2937;">${it.id}</span>`;
-                const sourceHtml = canJump
-                  ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;">${it.source}</a>`
-                  : it.source;
-                return `<div style="margin-top:8px;">
-                <div>${idHtml}</div>
-                <div style="color:#6B7280;margin-top:1px;">${sourceHtml}の情報を取得します。</div>
-                <div style="color:#374151;margin-top:4px;">取得される主な情報：</div>
-                <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.fields.map(f=>`<div>・${f}</div>`).join("")}</div>
-                ${it.usage && it.usage.length > 0 ? `<div style="color:#374151;margin-top:6px;">用途：</div>
-                <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.usage.map(u=>`<div>・${u}</div>`).join("")}</div>` : ""}
-              </div>`;
-              }).join("")}
-            </div>` : ""}
-            ${sub.children ? `<div class="subsection-list" style="margin-top:10px;">` + sub.children.map((ch, ci) => {
-              const ck = `ch_${i}_${si}_${ci}`; if(ch.image) _lbSrcs[ck] = ch.image;
-              return `<div class="subsection-card" style="background:#F0F4FF;">
-                <div class="subsection-header" onclick="toggleSubsection(event,'ch-${i}-${si}-${ci}')">
-                  <span class="subsection-dot" style="background:#9CA3AF"></span>
-                  <span class="subsection-title" style="font-size:12px;">${ch.title}</span>
-                  <span class="subsection-count">${ch.children ? ch.children.length : (ch.phases ? ch.phases.reduce((s,p)=>s+(p.items?p.items.length:0),0) : ch.tasks.length)}項目</span>
-                  <span class="subsection-toggle" id="stog-ch-${i}-${si}-${ci}">+</span>
-                </div>
-                <div class="subsection-body" id="sbod-ch-${i}-${si}-${ci}">
-                  ${ch.phases ? renderPhases(ch.phases, ch.title, ch.notice, ck, sec.kintoneTabs) : (ch.image || (ch.images && ch.images.length > 0)) ? (() => {
-                    const pcImgs = ch.images || (ch.image ? [ch.image] : []);
-                    const mobileImgs = ch.mobileImages || (ch.mobileImage ? [ch.mobileImage] : []);
-                    const imgHtmls = pcImgs.map((src, ii) => {
-                      const k2 = `${ck}_${ii}`;
-                      const mobileSrc = mobileImgs[ii] || src;
-                      _lbSrcs[k2] = src;
-                      return `<img alt="${ch.title || '画像'}" loading="lazy" src="${src}" data-pc-src="${src}" data-mobile-src="${mobileSrc}" data-lb-key="${k2}" class="section-img${sec.kintoneTabs ? ' kintone-img' : ''}" onerror="if(this.src!==this.dataset.pcSrc){this.src=this.dataset.pcSrc;}" onclick="openLightbox('${k2}')" style="width:100%;border-radius:8px;border:1px solid #E5E7EB;display:block;cursor:zoom-in;margin-bottom:8px;">`;
-                    }).join("");
-                    return `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;">
-                      <div class="img-container" style="flex:1.2;min-width:200px;">${imgHtmls}</div>
-                      <div style="flex:1;min-width:180px;">${renderTasks(ch.tasks)}${renderNotice(ch.notice)}</div>
-                    </div>`;
-                  })() : `${renderTasks(ch.tasks)}${renderNotice(ch.notice)}`}
-                  ${ch.displaySpec ? `<div style="margin-top:12px;padding:10px 14px;background:#ECFDF5;border-left:4px solid #10B981;border-radius:4px;font-size:12px;line-height:1.6;">
-                    <div style="font-weight:bold;color:#065F46;margin-bottom:8px;">📋 ${ch.displaySpec.title || "表示仕様"}</div>
-                    ${ch.displaySpec.description ? `<div style="color:#374151;margin-bottom:8px;">${ch.displaySpec.description}</div>` : ""}
-                    ${ch.displaySpec.items.map(it => {
-                      const canJump = it.source && SOURCE_TO_SUB_TITLE[it.source];
-                      const idHtml = canJump
-                        ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;font-weight:600;">${it.id}</a>`
-                        : `<span style="font-weight:600;color:#1F2937;">${it.id}</span>`;
-                      const sourceHtml = canJump
-                        ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;">${it.source}</a>`
-                        : it.source;
-                      return `<div style="margin-top:8px;">
-                      <div>${idHtml}</div>
-                      ${it.source ? `<div style="color:#6B7280;margin-top:1px;">${sourceHtml}に登録されている情報を表示します。</div>` : ""}
-                      <div style="color:#374151;margin-top:4px;">表示される主な情報：</div>
-                      <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.fields.map(f=>`<div>・${f}</div>`).join("")}</div>
-                      ${it.usage && it.usage.length > 0 ? `<div style="color:#374151;margin-top:6px;">用途：</div>
-                      <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.usage.map(u=>`<div>・${u}</div>`).join("")}</div>` : ""}
-                    </div>`;
-                    }).join("")}
-                  </div>` : ""}
-                  ${ch.lookupSpec ? `<div style="margin-top:12px;padding:10px 14px;background:#F3F4F6;border-left:4px solid #6366F1;border-radius:4px;font-size:12px;line-height:1.6;">
-                    <div style="font-weight:bold;color:#3730A3;margin-bottom:8px;">🔗 ${ch.lookupSpec.title || "ルックアップ仕様"}</div>
-                    ${ch.lookupSpec.description ? `<div style="color:#374151;margin-bottom:8px;">${ch.lookupSpec.description}</div>` : ""}
-                    ${ch.lookupSpec.items.map(it => {
-                      const canJump = it.source && SOURCE_TO_SUB_TITLE[it.source];
-                      const idHtml = canJump
-                        ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;font-weight:600;">${it.id}</a>`
-                        : `<span style="font-weight:600;color:#1F2937;">${it.id}</span>`;
-                      const sourceHtml = canJump
-                        ? `<a href="javascript:void(0);" onclick="jumpToSubsection('${it.source}')" style="color:#2563EB;text-decoration:underline;cursor:pointer;">${it.source}</a>`
-                        : it.source;
-                      return `<div style="margin-top:8px;">
-                      <div>${idHtml}</div>
-                      <div style="color:#6B7280;margin-top:1px;">${sourceHtml}の情報を取得します。</div>
-                      <div style="color:#374151;margin-top:4px;">取得される主な情報：</div>
-                      <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.fields.map(f=>`<div>・${f}</div>`).join("")}</div>
-                      ${it.usage && it.usage.length > 0 ? `<div style="color:#374151;margin-top:6px;">用途：</div>
-                      <div style="margin-top:2px;color:#374151;padding-left:4px;">${it.usage.map(u=>`<div>・${u}</div>`).join("")}</div>` : ""}
-                    </div>`;
-                    }).join("")}
-                  </div>` : ""}
-                  ${ch.children ? `<div class="subsection-list" style="margin-top:10px;">` + ch.children.map((gc, gci) => {
-                    const gck = `gc_${i}_${si}_${ci}_${gci}`; if(gc.image) _lbSrcs[gck] = gc.image;
-                    return `<div class="subsection-card" style="background:#EEF2FF;">
-                      <div class="subsection-header" onclick="toggleSubsection(event,'gc-${i}-${si}-${ci}-${gci}')">
-                        <span class="subsection-dot" style="background:#6B7280"></span>
-                        <span class="subsection-title" style="font-size:12px;">${gc.title}</span>
-                        <span class="subsection-count">${gc.tasks.length}項目</span>
-                        <span class="subsection-toggle" id="stog-gc-${i}-${si}-${ci}-${gci}">+</span>
-                      </div>
-                      <div class="subsection-body" id="sbod-gc-${i}-${si}-${ci}-${gci}">
-                        <div class="task-list">${gc.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>
-                        ${gc.image ? `<img alt="${gc.title || '画像'}" loading="lazy" src="${gc.image}" class="section-img" onclick="openLightbox('${gck}')" style="width:100%;max-width:520px;border-radius:8px;margin-top:10px;border:1px solid #E5E7EB;display:block;">` : ""}
-                      </div>
-                    </div>`;
-                  }).join("") + `</div>` : ""}
-                </div>
-              </div>`;
-            }).join("") + `</div>` : ""}
-          </div>
-        </div>`).join("") + `</div>`;
-  }
-
-  let imgHtml = "";
-  if (sec.image) {
-    const lbKey = `${cat.id}_${i}`;
-    _lbSrcs[lbKey] = sec.image;
-    imgHtml = `<img alt="${sec.title || '画像'}" loading="lazy" src="${sec.image}" class="section-img" onclick="openLightbox('${lbKey}')" style="width:100%;max-width:520px;border-radius:8px;margin-top:12px;border:1px solid #E5E7EB;display:block;">`;
-  }
-
-  if (sec.mapImage) _lbSrcs["map_" + i] = sec.mapImage;
-  card.innerHTML = `
-    <div class="section-header" onclick="toggleSection(${i},this)">
-      <span class="section-dot" style="background:${cat.color}"></span>
-      <span class="section-title">${sec.title}</span>
-      <span style="font-size:11px;color:#9CA3AF;margin-right:8px">${sec.subsections ? sec.subsections.length : sec.tasks.length}項目</span>
-      <span class="section-toggle ${isOpen ? "open" : ""}">+</span>
-    </div>
-    <div class="section-body ${isOpen ? "open" : ""}">
-      ${sec.mapImage ? `<img alt="${sec.title || ''}全体図" loading="lazy" src="${sec.mapImage}" onclick="openLightbox('map_${i}')" style="width:100%;max-width:1000px;border-radius:10px;border:1px solid #E5E7EB;display:block;margin:0 auto 18px;cursor:zoom-in;">` : ""}
-      ${sec.image ? `<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
-        <div style="flex:1.2;min-width:220px;">${imgHtml}</div>
-        <div style="flex:1;min-width:200px;">${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}</div>
-      </div>` : `${sec.tasks.length > 0 ? `<div class="task-list">${sec.tasks.map(t=>`<div class="task-item"><span style="flex:1;min-width:0;">${t}</span></div>`).join("")}</div>` : ""}`}
-      ${subsHtml}
-    </div>
-  `;
-  grid.appendChild(card);
-  });
+  // PC/モバイル切替はKintoneセクションだけで有効（選んだ状態は他のページから戻っても保持）
+  if (kintone && window._kintoneMode === "mobile") switchKintoneMode("mobile");
+  else document.body.classList.remove("kintone-mobile-mode");
 }
 
-function toggleSection(index, headerEl) {
-  const body = headerEl.nextElementSibling;
-  const toggle = headerEl.querySelector(".section-toggle");
-  const isOpen = body.classList.toggle("open");
-  toggle.classList.toggle("open", isOpen);
-  if (isOpen) openSections.add(index); else openSections.delete(index);
-  // 親セクションを閉じる時、配下の全subsectionも閉じる（再帰的にchildren含む）
-  if (!isOpen) {
-    body.querySelectorAll(".subsection-body.open").forEach(el => el.classList.remove("open"));
-    body.querySelectorAll(".subsection-toggle.open").forEach(el => el.classList.remove("open"));
-  }
-}
-
-function toggleSubsection(event, id) {
-  event.stopPropagation();
-  const body = document.getElementById(`sbod-${id}`);
-  const toggle = document.getElementById(`stog-${id}`);
-  if (!body) return;
-  const isOpen = body.classList.toggle("open");
-  toggle.classList.toggle("open", isOpen);
-  // サブセクションを閉じる時、配下のchildren(孫)も閉じる
-  if (!isOpen) {
-    body.querySelectorAll(".subsection-body.open").forEach(el => el.classList.remove("open"));
-    body.querySelectorAll(".subsection-toggle.open").forEach(el => el.classList.remove("open"));
-  }
-}
-
-// ========== 関連レコード一覧仕様からのジャンプ機能 ==========
-// source名（例:「活動管理」）→ Kintone営業管理の対応サブセクションタイトル（例:「③活動管理」）
 const SOURCE_TO_SUB_TITLE = {
   "リード管理": "STEP1｜リードを獲得する（①リード管理）",
   "案件管理": "STEP3｜案件を登録する（②案件管理）",
@@ -1988,61 +2010,20 @@ const SOURCE_TO_SUB_TITLE = {
   "代理店管理": "マスタ｜代理店管理（⑦・紹介元）"
 };
 
+// 表示仕様のリンク → 営業管理（Kintone）の該当STEPを開く
 function jumpToSubsection(sourceName) {
   const targetTitle = SOURCE_TO_SUB_TITLE[sourceName];
   if (!targetTitle) return;
-  // 営業カテゴリーが現在表示されていなければ切り替え
-  if (currentCat.id !== "sales-legal") {
-    currentCat = data.find(c => c.id === "sales-legal");
-    openSections.clear();
-    const filtered = currentMember && currentMember.categories ? data.filter(c => currentMember.categories.includes(c.id)) : data;
-    buildFilteredNav(filtered);
-    renderContent(currentCat);
-    // ナビのアクティブ状態更新
-    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-    const activeNav = document.querySelector(`.nav-item[data-cat-id="sales-legal"]`);
-    if (activeNav) activeNav.classList.add("active");
-  }
-  // セクション「営業管理（Kintone）」のインデックスを取得
-  const kintoneSecIdx = currentCat.sections.findIndex(s => s.kintoneTabs);
-  if (kintoneSecIdx === -1) return;
-  // セクションを開く
-  const sectionCards = document.querySelectorAll("#sectionsGrid > .section-card");
-  const targetCard = sectionCards[kintoneSecIdx];
-  if (!targetCard) return;
-  const sectionBody = targetCard.querySelector(".section-body");
-  const sectionToggle = targetCard.querySelector(".section-toggle");
-  if (sectionBody && !sectionBody.classList.contains("open")) {
-    sectionBody.classList.add("open");
-    if (sectionToggle) sectionToggle.classList.add("open");
-    openSections.add(kintoneSecIdx);
-  }
-  // 該当subsectionのインデックスを特定
-  const subIdx = currentCat.sections[kintoneSecIdx].subsections.findIndex(s => s.title === targetTitle);
-  if (subIdx === -1) return;
-  // subsectionを開く
-  const subBody = document.getElementById(`sbod-${kintoneSecIdx}-${subIdx}`);
-  const subToggle = document.getElementById(`stog-${kintoneSecIdx}-${subIdx}`);
-  if (subBody && !subBody.classList.contains("open")) {
-    subBody.classList.add("open");
-    if (subToggle) subToggle.classList.add("open");
-  }
-  // 最初のchild（〇-1）を開く
-  const childBody = document.getElementById(`sbod-ch-${kintoneSecIdx}-${subIdx}-0`);
-  const childToggle = document.getElementById(`stog-ch-${kintoneSecIdx}-${subIdx}-0`);
-  if (childBody && !childBody.classList.contains("open")) {
-    childBody.classList.add("open");
-    if (childToggle) childToggle.classList.add("open");
-  }
-  // スクロール（subsectionヘッダー位置へ）
-  setTimeout(() => {
-    const subHeader = subBody ? subBody.previousElementSibling : null;
-    if (subHeader) subHeader.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 50);
+  const cat = allowedCats().find(c => c.id === "sales-legal");
+  if (!cat) return;
+  const si = cat.sections.findIndex(s => s.kintoneTabs);
+  if (si === -1) return;
+  const ui = cat.sections[si].subsections.findIndex(s => s.title === targetTitle);
+  if (ui === -1) return;
+  go(`sales-legal/${si}/${ui}/0`, true);
 }
 
-// ========== 検索（強化版） ==========
-
+/* ===================== 検索 ===================== */
 // HTMLタグを除去してプレーンテキストにする
 function stripHtml(s) {
   return String(s).replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
@@ -2070,104 +2051,6 @@ function tokenizeQuery(q) {
 function matchAllTokens(text, tokens) {
   const n = normalizeForSearch(stripHtml(text));
   return tokens.every(tk => n.includes(tk));
-}
-
-// セクション/サブセクション/孫を再帰的に走査してヒットを集める
-// パス：[セクション名, サブ名, 孫名, ...]
-function collectHits(node, tokens, pathLabels, hits, cat, sectionIndex) {
-  // node には title, tasks, subsections|children がある可能性
-  const title = node.title || "";
-  const titleHit = title && matchAllTokens(title, tokens);
-  const texts = (node.tasks || []).slice();
-  // phases（STEP型ページ）と notice も検索対象に含める
-  (node.phases || []).forEach(p => {
-    if (p.heading) texts.push(p.heading);
-    (p.items || []).forEach(it => texts.push(it));
-  });
-  if (node.notice) texts.push([node.notice.title, node.notice.body, ...(node.notice.items || [])].filter(Boolean).join(" "));
-  const matchedTasks = texts.filter(t => t && matchAllTokens(t, tokens));
-
-  if (titleHit || matchedTasks.length > 0) {
-  hits.push({
-    cat,
-    sectionIndex,
-    path: [...pathLabels, title].filter(Boolean),
-    title,
-    titleHit,
-    matchedTasks,
-    allTasks: texts
-  });
-  }
-
-  const subKeys = ["subsections", "children"];
-  for (const k of subKeys) {
-  if (Array.isArray(node[k])) {
-    node[k].forEach(child => {
-      collectHits(child, tokens, [...pathLabels, title].filter(Boolean), hits, cat, sectionIndex);
-    });
-  }
-  }
-}
-
-function handleSearch(query) {
-  searchQuery = query.trim();
-  const area = document.getElementById("contentArea");
-  if (!searchQuery) { renderContent(currentCat); buildNav(); return; }
-  document.getElementById("breadcrumbCurrent").textContent = `「${searchQuery}」の検索結果`;
-  document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-
-  const tokens = tokenizeQuery(searchQuery);
-  if (tokens.length === 0) { renderContent(currentCat); buildNav(); return; }
-
-  const hits = [];
-  data.forEach(cat => {
-  const catHit = matchAllTokens(cat.label, tokens) || matchAllTokens(cat.desc || "", tokens);
-  cat.sections.forEach((sec, si) => {
-    const before = hits.length;
-    collectHits(sec, tokens, [], hits, cat, si);
-    // カテゴリ名／説明だけがヒットして中身ゼロのときも、トップ階層を1件だけ拾う
-    if (catHit && hits.length === before) {
-      hits.push({
-        cat, sectionIndex: si, path: [sec.title], title: sec.title,
-        titleHit: false, matchedTasks: [], allTasks: sec.tasks || []
-      });
-    }
-  });
-  });
-
-  if (hits.length === 0) {
-  area.innerHTML = `<div class="search-empty">「${escHtml(searchQuery)}」に一致する項目が見つかりませんでした。</div>`;
-  return;
-  }
-
-  area.innerHTML = `<div style="margin-bottom:20px;font-size:13px;color:#6B7280">${hits.length}件 見つかりました</div><div id="searchResults"></div>`;
-  const container = document.getElementById("searchResults");
-
-  hits.forEach(({ cat, path, title, matchedTasks, allTasks }) => {
-  const el = document.createElement("div");
-  el.className = "search-result-item";
-  el.style.borderLeftColor = cat.color;
-
-  const breadcrumb = path.length > 1
-    ? path.slice(0, -1).map(p => escHtml(p)).join(" › ")
-    : "";
-
-  const previewSource = matchedTasks.length > 0 ? matchedTasks : allTasks.slice(0, 3);
-  const preview = previewSource.length > 0
-    ? previewSource.map(t => highlightTokens(stripHtml(t), tokens)).join(" ・ ")
-    : "";
-
-  el.innerHTML = `
-    <div class="search-result-cat" style="color:${cat.color}">${cat.icon} ${escHtml(cat.label)}${breadcrumb ? ` <span style="color:#9CA3AF;font-weight:400;">／ ${breadcrumb}</span>` : ""}</div>
-    <div class="search-result-title">${highlightTokens(title, tokens)}</div>
-    ${preview ? `<div class="search-result-preview">${preview}</div>` : ""}
-  `;
-  el.onclick = () => {
-    document.getElementById("searchInput").value = ""; searchQuery = "";
-    currentCat = cat; openSections.clear(); buildNav(); renderContent(cat);
-  };
-  container.appendChild(el);
-  });
 }
 
 // 元テキスト中で各トークンに該当する区間を <mark> で囲む（正規化基準でマッチ判定）
@@ -2218,6 +2101,104 @@ function highlightTokens(text, tokens) {
 }
 
 function escHtml(str) { return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// 再帰的にヒットを集める（path = [項目, 子, 孫] の番号）
+function collectHits(node, tokens, pathLabels, pathIdx, hits, cat, sectionIndex) {
+  const title = node.title || "";
+  const titleHit = title && matchAllTokens(title, tokens);
+  const texts = (node.tasks || []).filter(t => typeof t === "string");
+  (node.tasks || []).forEach(t => { if (t && typeof t === "object" && t.text) texts.push(t.text); });
+  (node.phases || []).forEach(p => {
+    if (p.heading) texts.push(p.heading);
+    (p.items || []).forEach(it => texts.push(it));
+  });
+  (node.topPcTasks || []).forEach(t => texts.push(t));
+  if (node.notice) texts.push([node.notice.title, node.notice.body, ...(node.notice.items || [])].filter(Boolean).join(" "));
+  const matchedTasks = texts.filter(t => t && matchAllTokens(t, tokens));
+
+  if (titleHit || matchedTasks.length > 0) {
+    hits.push({ cat, sectionIndex, pathIdx, path: [...pathLabels, title].filter(Boolean), title, titleHit, matchedTasks, allTasks: texts });
+  }
+  kidsOf(node).forEach((child, i) => {
+    collectHits(child, tokens, [...pathLabels, title].filter(Boolean), pathIdx.concat(i), hits, cat, sectionIndex);
+  });
+}
+
+function handleSearch(query) {
+  searchQuery = query.trim();
+  if (!searchQuery) { route(); return; }
+  const area = document.getElementById("contentArea");
+  const tokens = tokenizeQuery(searchQuery);
+  if (tokens.length === 0) { route(); return; }
+  buildNav();
+
+  const hits = [];
+  allowedCats().forEach(cat => {
+    const catHit = matchAllTokens(cat.label, tokens) || matchAllTokens(cat.desc || "", tokens);
+    cat.sections.forEach((sec, si) => {
+      const before = hits.length;
+      // セクション自身
+      const secTexts = (sec.tasks || []).filter(t => typeof t === "string").concat(sec.topPcTasks || []);
+      const secMatched = secTexts.filter(t => matchAllTokens(t, tokens));
+      if (matchAllTokens(sec.title, tokens) || secMatched.length) {
+        hits.push({ cat, sectionIndex: si, pathIdx: [], path: [sec.title], title: sec.title, matchedTasks: secMatched, allTasks: secTexts });
+      }
+      (sec.subsections || []).forEach((sub, ui) => collectHits(sub, tokens, [sec.title], [ui], hits, cat, si));
+      if (catHit && hits.length === before) {
+        hits.push({ cat, sectionIndex: si, pathIdx: [], path: [sec.title], title: sec.title, matchedTasks: [], allTasks: sec.tasks || [] });
+      }
+    });
+  });
+
+  const head = `<div class="page-top">${`<nav class="breadcrumb"><span>業務マニュアル</span><span class="sep">/</span><span>検索</span></nav>`}</div>
+    <h2 class="page-title">「${escHtml(searchQuery)}」の検索結果</h2>`;
+  if (hits.length === 0) {
+    area.innerHTML = head + `<div class="search-empty">一致する項目が見つかりませんでした。<br>言葉を短くするか、スペースで区切らずに検索してみてください。</div>`;
+    return;
+  }
+  window._searchHits = hits;
+  area.innerHTML = head + `<div class="meta-actions"><span>${hits.length}件 見つかりました（スペース区切りで絞り込み）</span></div>` +
+    hits.map((h, i) => {
+      const previewSource = h.matchedTasks.length > 0 ? h.matchedTasks : h.allTasks.slice(0, 2);
+      const preview = previewSource.slice(0, 3).map(t => highlightTokens(stripHtml(t), tokens)).join(" ・ ");
+      const crumb = h.path.slice(0, -1).map(p => escHtml(p)).join(" › ");
+      return `<button type="button" class="search-result" onclick="openHit(${i})">
+        <div class="search-path"><b>${h.cat.icon} ${escHtml(h.cat.label)}</b>${crumb ? " › " + crumb : ""}</div>
+        <div class="search-title">${highlightTokens(h.title, tokens)}</div>
+        ${preview ? `<div class="search-preview">${preview}</div>` : ""}
+      </button>`;
+    }).join("");
+  window.scrollTo(0, 0);
+}
+
+function openHit(i) {
+  const h = (window._searchHits || [])[i];
+  if (!h) return;
+  go(`${h.cat.id}/${h.sectionIndex}${h.pathIdx.length ? "/" + h.pathIdx.join("/") : ""}`, true);
+}
+
+// ショートカット： / または ⌘K / Ctrl+K で検索、Esc で検索を解除
+document.addEventListener("keydown", e => {
+  const inInput = /^(INPUT|TEXTAREA)$/.test((e.target && e.target.tagName) || "");
+  if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !inInput)) {
+    if (!currentMember) return;
+    e.preventDefault();
+    if (window.innerWidth <= 768) { document.getElementById("sidebar").classList.add("open"); document.getElementById("sidebarOverlay").classList.add("open"); }
+    const s = document.getElementById("searchInput"); s.focus(); s.select();
+  } else if (e.key === "Escape" && e.target && e.target.id === "searchInput" && searchQuery) {
+    e.target.value = ""; handleSearch("");
+  }
+});
+
+function init() {
+  const savedId = localStorage.getItem("manualUser");
+  if (savedId) {
+  const member = members.find(m => m.id === savedId);
+  if (member) { selectMember(member); return; }
+  }
+  // 保存なし → ログイン画面を表示
+  document.getElementById("loginScreen").style.display = "flex";
+}
 
 init();
 </script>
