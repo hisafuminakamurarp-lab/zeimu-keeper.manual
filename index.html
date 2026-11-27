@@ -199,6 +199,31 @@ kbd { background: var(--os-bg); border: 1px solid var(--os-border); border-radiu
 .tool-link { color: var(--os-info) !important; font-weight: 600; text-decoration: none; }
 .tool-link:hover { text-decoration: underline; }
 
+/* ===== アカウント・パスワード一覧（暗号化して埋め込み、ログイン時に復号） ===== */
+.vault-group { margin-top: 28px; }
+.vault-group-title { font-size: var(--os-fs-h4); font-weight: 700; color: var(--os-ink); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.vault-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--os-error-bg); color: var(--os-error); border: 1px solid var(--os-error-line); }
+.vault-badge.all { background: var(--os-info-bg); color: var(--os-info); border-color: var(--os-info-line); }
+.vault-table { width: 100%; border-collapse: collapse; background: var(--os-surface); border: 1px solid var(--os-border); border-radius: var(--os-radius-lg); overflow: hidden; font-size: 13px; }
+.vault-table th { text-align: left; background: var(--os-neutral-bg); color: var(--os-text-mute); font-weight: 600; font-size: 12px; padding: 8px 12px; border-bottom: 1px solid var(--os-border); }
+.vault-table td { padding: 10px 12px; border-bottom: 1px solid var(--os-border-soft); vertical-align: top; color: var(--os-text-body); word-break: break-all; }
+.vault-table tr:last-child td { border-bottom: none; }
+.vault-name { font-weight: 700; color: var(--os-ink); word-break: normal; }
+.vault-use { display: block; font-size: 12px; color: var(--os-text-mute); font-weight: 400; margin-top: 2px; }
+.vault-note { display: block; font-size: 12px; color: var(--os-warn); margin-top: 4px; }
+.vault-val { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vault-val code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--os-neutral-bg); padding: 2px 6px; border-radius: var(--os-radius-sm); }
+.vault-btn { font-size: 11px; padding: 3px 8px; border: 1px solid var(--os-border); border-radius: var(--os-radius-sm); background: var(--os-surface); color: var(--os-text-mute); cursor: pointer; font-family: inherit; }
+.vault-btn:hover { border-color: var(--os-accent); color: var(--os-accent); }
+.vault-msg { padding: 14px 16px; border-radius: var(--os-radius); background: var(--os-warn-bg); border: 1px solid var(--os-warn-line); color: var(--os-warn); font-size: 13px; }
+@media (max-width: 768px) {
+  .vault-table thead { display: none; }
+  .vault-table, .vault-table tbody, .vault-table tr, .vault-table td { display: block; width: 100%; }
+  .vault-table tr { border-bottom: 1px solid var(--os-border); padding: 6px 0; }
+  .vault-table td { border: none; padding: 4px 12px; }
+  .vault-table td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; color: var(--os-text-mute); }
+}
+
 /* ===== アコーディオン（階層表示） =====
    L1 = 枠付きカード / L2 = 区切り線の行 / L3 = インデントした行 */
 .acc-list { display: flex; flex-direction: column; gap: 10px; }
@@ -1155,7 +1180,7 @@ const data = [
                   "□ 紹介案件が代理店レコードの一覧に表示されている",
                 ]
               }
-            ], displaySpec: { title: "代理店リード・案件一覧について", description: "代理店管理アプリでは、代理店IDをもとに関連する情報が自動反映されます。", items: [ { id: "代理店リード一覧", source: "リード管理", fields: ["会社名", "代表者", "流入経路", "リードステータス", "次回アクション予定日"] }, { id: "代理店案件一覧", source: "案件管理", fields: ["会社名", "顧客課題", "案件種別①", "案件種別②", "案件ステータス", "次回アクション予定日", "次回アクション内容"] } ] } }
+            ], displaySpec: { title: "代理店リード・案件一覧について", description: "代理店管理アプリでは、代理店IDをもとに関連する情報が自動反映されます。", items: [ { id: "代理店リード一覧", source: "リード管理", fields: ["会社名", "代表者", "流入経路", "リードステータス", "次回アクション予定日"] }, { id: "代理店案件一覧", source: "案件管理", fields: ["会社名", "案件種別①", "案件種別②", "案件ステータス", "次回アクション予定日", "次回アクション内容"] } ] } }
           ]
         },
         {
@@ -1179,7 +1204,7 @@ const data = [
           children: [
             {
           title: "顧問契約制度",
-          tasks: ["Advisory Contract Program", "国税の知恵袋を御社に！顧問料以上の価値を確約", "税務署の視点を知り尽くしたプロが御社の最強の味方に", "01 マンツーマン指導：月1回30分オンライン戦略面談", "02 いつでも質問OK：チャットで安心サポート", "03 宝の山：御社を飛躍させる有益情報", "04 選ばれし企業だけ：顧問先限定の特別な節税商品", "05 出口戦略までサポート：節税後の未来設計も万全", "料金：顧問料 66,000円〜（税別）"],
+          tasks: ["Advisory Contract Program", "国税の知恵袋を御社に！顧問料以上の価値を確約", "税務署の視点を知り尽くしたプロが御社の最強の味方に", "01 マンツーマン指導：月1回30分オンライン戦略面談", "02 いつでも質問OK：チャットで安心サポート", "03 宝の山：御社を飛躍させる有益情報", "04 選ばれし企業だけ：顧問先限定の特別な節税商品", "05 出口戦略までサポート：節税後の未来設計も万全", "料金：顧問料 66,000円〜（税込）／税抜 60,000円〜"],
           images: ["16_advisory_contract_1.png", "17_advisory_contract_2.png"]
         },
             {
@@ -1201,7 +1226,7 @@ const data = [
         },
         {
           title: "税務調査対策",
-          tasks: ["Tax Audit Support", "弊社では税務調査対策として様々なサービスを提供", "メニュー1：決算書診断（1期分30万円）否認リスクを徹底チェック", "メニュー2：実践型模擬税務調査（1日100万円〜）本番さながらの臨場感を体験", "メニュー3：税務調査完全立会（300万円）最強の用心棒、国税OBが同席", "メニュー4：安心のアフターケア（顧問契約 月額6.6万円〜）継続サポート"],
+          tasks: ["Tax Audit Support", "弊社では税務調査対策として様々なサービスを提供", "メニュー1：決算書診断（1期分30万円）否認リスクを徹底チェック", "メニュー2：実践型模擬税務調査（1日100万円〜）本番さながらの臨場感を体験", "メニュー3：税務調査完全立会（300万円）最強の用心棒、国税OBが同席", "メニュー4：安心のアフターケア（顧問契約 月額6.6万円〜・税込）継続サポート"],
           images: ["18_tax_audit_support_1.png", "19_tax_audit_support_2.png"]
         },
         {
@@ -1271,7 +1296,7 @@ const data = [
   sections: [
     {
       title: "顧問契約",
-      tasks: ["顧問料：66,000円（税込）", "担当者報酬（月30分）：10,000円", "会社分：50,000円"]
+      tasks: ["顧問料：66,000円（税込）／税抜 60,000円", "担当者報酬（月30分）：10,000円", "会社分：50,000円"]
     },
     {
       title: "案件報酬",
@@ -1292,7 +1317,7 @@ const data = [
         { day: "15日", who: "内部", title: "請求書作成依頼の期限", body: "請求書作成依頼を各担当へ送付（依頼メールは invoice@zeimu-keeper.co.jp から）。金額確認・立替確認・紹介確認・不備確認を実施。" },
         { day: "20日", who: "内部", title: "請求書の提出締切", body: "請求書回収・不備修正完了をこの日までに。請求書は invoice@zeimu-keeper.co.jp 宛てに回収。freee反映準備・支払確定もこの日まで。" },
         { type: "rsblock", theme: "blue", icon: "💳", title: "21日〜月末", sub: "承認・支払い" },
-        { day: "21〜29日", who: "内部", title: "freee反映・確認・振込準備" },
+        { day: "21〜29日", who: "内部", title: "freee反映・確認・振込準備", body: "freeeに反映し、金額を確認して振込を準備。売掛金の入金がまだの案件は含めない（入金確認後に精算）。" },
         { day: "末日", who: "内部", title: "支払日（月末締め翌月末払い）", body: "原則、売掛回収（入金確認）後に精算。入金確認後に役員請求書作成依頼。" },
         { type: "rsblock", theme: "green", icon: "✅", title: "月末", sub: "当月の締め・入金確認" },
         { day: "末日", who: "内部", title: "立替経費の申請・集計を完了", body: "立替経費は月次精算サイクルに統一し、請求書へ合算する運用。" },
@@ -1317,8 +1342,8 @@ const data = [
       title: "請求オペレーション",
       tasks: [],
       subsections: [
-        { title: "1. 依頼", tasks: ["請求書作成依頼を各担当へ送付", "依頼メールは <b>invoice@zeimu-keeper.co.jp</b> から送る", "金額確認・立替確認・紹介確認・不備確認を実施", "依頼期限：翌月15日", "（詳細は今後追記）"] },
-        { title: "2. 提出・反映", tasks: ["提出締切：翌月20日", "請求書回収・不備修正完了をこの日までに完了", "請求書は <b>invoice@zeimu-keeper.co.jp</b> 宛てに回収する", "freee反映準備・支払確定もこの日までに", "（詳細は今後追記）"] }
+        { title: "1. 依頼", tasks: ["請求書作成依頼を各担当へ送付", "依頼メールは <b>invoice@zeimu-keeper.co.jp</b> から送る", "金額確認・立替確認・紹介確認・不備確認を実施", "依頼期限：翌月15日"] },
+        { title: "2. 提出・反映", tasks: ["提出締切：翌月20日", "請求書回収・不備修正完了をこの日までに完了", "請求書は <b>invoice@zeimu-keeper.co.jp</b> 宛てに回収する", "freee反映準備・支払確定もこの日までに"] }
       ]
     },
     {
@@ -1454,6 +1479,15 @@ const data = [
       ]
     },
     {
+      title: "アカウント・パスワード一覧",
+      vault: true,
+      tasks: [
+        "業務で使う共有アカウントのログイン情報です。<b>ログインした権限で見られるものだけ</b>が表示されます。",
+        "営業に必要なツールは全員、総務・経理・会計・法務・財務などのツールは管理者だけが見られます。",
+        "社外（LINE・メール・チャット）にパスワードを貼らないでください。"
+      ]
+    },
+    {
       title: "業務ツール（あれば便利）",
       tasks: [],
       subsections: [
@@ -1483,6 +1517,10 @@ let currentSecIdx = null;          // null = カテゴリ画面
 let searchQuery = "";
 const expandedCats = new Set();
 
+// ログイン情報とアカウント一覧は暗号化して埋め込む（平文のパスワードはこのファイルに置かない）。
+// 中身は Git 管理外の ~/Documents/zeimu-keeper-secrets/ で編集し、build_vault.py で書き換える。
+const VAULT = /*VAULT*/{"v":1,"iter":300000,"members":{"sales":{"email":"admin@zeimu-keeper.co.jp","salt":"WSq8QO5JVeEh6SgdeiyVIg==","iv":"HN+D4aVQCjCACoyR","ct":"i34022N/K+KHUmTGvI/cVwjuToc3i0wdiugkYMAQY0+KAkljfNARWGWPU1EbcARADEFipjZ5cjQP3trMK7GtZIywmfciD/9ogw=="},"admin":{"email":"info@zeimu-keeper.co.jp","salt":"uScRVXR/d80X+TVwxCcrvw==","iv":"DehF/9KXUsLB3TT+","ct":"tvKdtWTumULNog9GKkti5sKFerxi1JenpzFnYZLLQnybCEeFf1UbvOdGIbWTvyAm9esAJtFuwD8rTIcWwtSjk2RpDdS2uFS6jwJl5MMglZwHRKQrZCm3nS7qQ8QIgPO7FCGBcpZXiccdCu6+e/ZU+Hz1/owWhYXX91Gm6ItGV3dbTQ=="}},"blocks":{"sales":{"iv":"FR2+8ChGXiGktSRL","ct":"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"},"admin":{"iv":"5cegHTTXQchY7JAL","ct":"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"}}}/*/VAULT*/;
+
 const members = [
   {
   id: "sales",
@@ -1491,7 +1529,6 @@ const members = [
   color: "#A21034",
   role: "全カテゴリ",
   email: "admin@zeimu-keeper.co.jp",
-  password: "zeimuadmin",
   categories: null
   },
   {
@@ -1501,16 +1538,51 @@ const members = [
   color: "#3B82F6",
   role: "全カテゴリ",
   email: "info@zeimu-keeper.co.jp",
-  password: "zeimu1221",
   categories: null
   }
 ];
+
+/* ===== 暗号化まわり（PBKDF2-SHA256 → AES-256-GCM） ===== */
+const VAULT_KEYS_STORAGE = "manualVaultKeys";
+let vaultKeys = null;      // { sales: "base64", admin: "base64" } ログイン中に見られるグループの鍵
+const vaultCache = {};     // 復号済みのグループ
+
+function _b64(s) { return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+
+async function _aesOpen(rawKey, box) {
+  const key = await crypto.subtle.importKey("raw", rawKey, "AES-GCM", false, ["decrypt"]);
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: _b64(box.iv) }, key, _b64(box.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+// パスワードが正しければ、見てよいグループの鍵を返す（違えば null）
+async function unlockVault(memberId, password) {
+  const m = VAULT.members && VAULT.members[memberId];
+  if (!m) return null;
+  try {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+    const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: _b64(m.salt), iterations: VAULT.iter }, base, 256);
+    return await _aesOpen(new Uint8Array(bits), m);
+  } catch (e) {
+    return null;
+  }
+}
+
+async function vaultGroup(group) {
+  if (vaultCache[group]) return vaultCache[group];
+  if (!vaultKeys || !vaultKeys[group] || !VAULT.blocks || !VAULT.blocks[group]) return null;
+  vaultCache[group] = await _aesOpen(_b64(vaultKeys[group]), VAULT.blocks[group]);
+  return vaultCache[group];
+}
 
 let currentMember = null;
 
 function doLogout() {
   if (!confirm("ログアウトしますか?")) return;
   localStorage.removeItem("manualUser");
+  localStorage.removeItem(VAULT_KEYS_STORAGE);
+  vaultKeys = null;
+  Object.keys(vaultCache).forEach(k => delete vaultCache[k]);
   currentMember = null;
   showLogin();
 }
@@ -1522,15 +1594,20 @@ function showLogin() {
   document.getElementById("loginScreen").style.display = "flex";
 }
 
-function doLogin() {
+async function doLogin() {
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
-  const member = members.find(m => m.email === email && m.password === password);
-  if (member) {
-  document.getElementById("loginError").textContent = "";
+  const errEl = document.getElementById("loginError");
+  const member = members.find(m => m.email === email);
+  errEl.textContent = "確認中…";
+  const keys = member ? await unlockVault(member.id, password) : null;
+  if (member && keys) {
+  errEl.textContent = "";
+  vaultKeys = keys;
+  localStorage.setItem(VAULT_KEYS_STORAGE, JSON.stringify(keys));
   selectMember(member);
   } else {
-  document.getElementById("loginError").textContent = "メールアドレスまたはパスワードが違います";
+  errEl.textContent = "メールアドレスまたはパスワードが違います";
   }
 }
 
@@ -2157,12 +2234,70 @@ function renderSection(cat, si) {
     <div class="meta-actions">${kintone ? kintoneTabsHtml() : ""}<button type="button" onclick="copyLink()">🔗 リンクをコピー</button><span class="meta-count">${subs.length ? subs.length + "項目" : ""}</span></div>
     ${index}
     ${overview.trim() ? `<section class="block">${index ? `<h3 class="block-title">概要</h3>` : ""}${overview}</section>` : ""}
+    ${sec.vault ? `<section class="block" id="vaultArea"><div class="vault-msg">読み込み中…</div></section>` : ""}
     ${accs}
     ${pager}`;
+  if (sec.vault) renderVault();
 
   // PC/モバイル切替はKintoneセクションだけで有効（選んだ状態は他のページから戻っても保持）
   if (kintone && window._kintoneMode === "mobile") switchKintoneMode("mobile");
   else document.body.classList.remove("kintone-mobile-mode");
+}
+
+/* ===================== アカウント・パスワード一覧 ===================== */
+const VAULT_GROUPS = [
+  { id: "sales", label: "営業ツール", badge: "全員", cls: "all" },
+  { id: "admin", label: "管理者のみ", badge: "管理者のみ", cls: "" }
+];
+
+function vaultValHtml(v, secret) {
+  if (!v) return "—";
+  const val = escHtml(v);
+  const enc = encodeURIComponent(v);
+  return `<span class="vault-val"><code${secret ? ` data-secret="${escAttr(enc)}">••••••••` : `>${val}`}</code>`
+    + (secret ? `<button type="button" class="vault-btn" onclick="vaultToggle(this)">表示</button>` : "")
+    + `<button type="button" class="vault-btn" onclick="vaultCopy('${escAttr(enc)}')">コピー</button></span>`;
+}
+
+function vaultToggle(btn) {
+  const code = btn.parentElement.querySelector("code");
+  const shown = btn.textContent === "隠す";
+  code.textContent = shown ? "••••••••" : decodeURIComponent(code.dataset.secret);
+  btn.textContent = shown ? "表示" : "隠す";
+}
+
+function vaultCopy(enc) {
+  const v = decodeURIComponent(enc);
+  const done = () => toast("コピーしました");
+  if (navigator.clipboard) navigator.clipboard.writeText(v).then(done, () => prompt("コピーしてください", v));
+  else prompt("コピーしてください", v);
+}
+
+async function renderVault() {
+  const area = document.getElementById("vaultArea");
+  if (!area) return;
+  let html = "";
+  try {
+    for (const g of VAULT_GROUPS) {
+      const groups = await vaultGroup(g.id);
+      if (!groups) continue;
+      html += groups.map(grp => `<div class="vault-group">
+        <div class="vault-group-title">${escHtml(grp.group)}<span class="vault-badge ${g.cls}">${g.badge}</span></div>
+        <table class="vault-table">
+          <thead><tr><th style="width:30%">ツール</th><th style="width:32%">ID</th><th>パスワード</th></tr></thead>
+          <tbody>${grp.items.map(it => `<tr>
+            <td class="vault-name">${it.url ? `<a href="${escAttr(it.url)}" target="_blank" rel="noopener" class="tool-link">${escHtml(it.name)}</a>` : escHtml(it.name)}${it.use ? `<span class="vault-use">${escHtml(it.use)}</span>` : ""}${it.note ? `<span class="vault-note">${escHtml(it.note)}</span>` : ""}</td>
+            <td data-label="ID">${vaultValHtml(it.id, false)}</td>
+            <td data-label="パスワード">${vaultValHtml(it.pass, true)}</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </div>`).join("");
+    }
+  } catch (e) {
+    console.warn("vault decrypt failed", e);
+    html = "";
+  }
+  area.innerHTML = html || `<div class="vault-msg">表示できるアカウントがありません。一度ログアウトして、ログインし直してください。</div>`;
 }
 
 const SOURCE_TO_SUB_TITLE = {
@@ -2356,10 +2491,14 @@ document.addEventListener("keydown", e => {
 
 function init() {
   const savedId = localStorage.getItem("manualUser");
-  if (savedId) {
+  let savedKeys = null;
+  try { savedKeys = JSON.parse(localStorage.getItem(VAULT_KEYS_STORAGE) || "null"); } catch (e) { savedKeys = null; }
+  if (savedId && savedKeys) {
   const member = members.find(m => m.id === savedId);
-  if (member) { selectMember(member); return; }
+  if (member) { vaultKeys = savedKeys; selectMember(member); return; }
   }
+  // 暗号化に切り替える前のログイン状態は、一度だけログインし直してもらう
+  localStorage.removeItem("manualUser");
   // 保存なし → ログイン画面を表示
   document.getElementById("loginScreen").style.display = "flex";
 }
